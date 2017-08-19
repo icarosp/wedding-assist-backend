@@ -6,6 +6,9 @@ namespace WeddingAssist.Domain.Entities
 {
     public class Budget
     {
-        public int MyProperty { get; private set; }
+        public IList<BudgetService> Services { get; private set; }
+        public Decimal BudgetAmount { get; private set; }
+        public DateTime StartDate { get; private set; }
+        public TimeSpan Duration { get; private set; }
     }
 }
