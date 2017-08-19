@@ -4,7 +4,7 @@ using System.Text;
 
 namespace WeddingAssist.Domain.Entities
 {
-    public class CategoryItem
+    public class BudgetCategoryItem
     {
         public BudgetServiceCategory Category { get; private set; }
         public string Name { get; private set; }

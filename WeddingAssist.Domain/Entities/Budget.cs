@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using WeddingAssist.Domain.Enums;
 
 namespace WeddingAssist.Domain.Entities
 {
@@ -10,5 +11,6 @@ namespace WeddingAssist.Domain.Entities
         public Decimal BudgetAmount { get; private set; }
         public DateTime StartDate { get; private set; }
         public TimeSpan Duration { get; private set; }
+        public List<EBidPriorityOrder> Priority { get; private set; }
     }
 }

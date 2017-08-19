@@ -7,6 +7,7 @@ namespace WeddingAssist.Domain.Entities
     public class Bid
     {
         public IList<BidItem> BidItems { get; private set; }
-        public Budh
+        public IList<BudgetCategoryItem> BudgetCategoryItem { get; private set; }
+        public Decimal Amount { get; private set; }//ONLY GETTER
     }
 }
