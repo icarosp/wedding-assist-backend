@@ -9,7 +9,6 @@ namespace WeddingAssist.Domain.Entities
     {
         public EService ServiceType { get; private set; }
         public Decimal MaxBudgetService { get; private set; }
-        public IList<BudgetServiceItem> ServiceItems { get; private set; }
-
+        public IList<Category> Categories { get; private set; }
     }
 }
