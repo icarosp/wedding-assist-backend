@@ -11,4 +11,3 @@ namespace WeddingAssist.Domain.Enums
         PHOTOGRAPH = 3
     }
 }
-}
