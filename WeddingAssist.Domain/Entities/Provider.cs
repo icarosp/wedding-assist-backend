@@ -7,8 +7,8 @@ namespace WeddingAssist.Domain.Entities
 {
     public class Provider : User
     {
-        public string ProviderName { get; private set; }
-        public string Logo { get; private set; }
-        public List<EService> Services { get; private set; }
+        public string ProviderName { get; set; }
+        public string Logo { get; set; }
+        public List<EService> Services { get; set; }
     }
 }
