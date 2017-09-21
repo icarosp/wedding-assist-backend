@@ -17,9 +17,19 @@ namespace WeddingAssist.Api.Controllers
         [Route("get_user_by_email")]
         public IActionResult CheckUserInfo([FromBody]string email)
         {
-            UserRepository userRepository = new UserRepository();
-            userRepository.GetUserByEmail(email);
-            return Ok(email);
+            try
+            {
+                UserRepository userRepository = new UserRepository();
+                User user = userRepository.GetUserByEmail(email);
+                if (user == null)
+                    return Ok(user);
+                return NotFound();
+
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
         }
 
         [HttpPost]
@@ -37,6 +47,24 @@ namespace WeddingAssist.Api.Controllers
                 return StatusCode(500, e);
             }
         }
+
+        [HttpPost]
+        [Route("save_provider")]
+        public IActionResult SaveProvider([FromBody]Provider provider)
+        {
+            try
+            {
+                UserRepository userRepository = new UserRepository();
+                userRepository.SaveProvider(provider);
+                return Created("SaveProvider", provider);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
+
+
 
         [HttpGet]
         [Route("teste")]

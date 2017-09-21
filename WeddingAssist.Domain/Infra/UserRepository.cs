@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using WeddingAssist.Domain.Entities;
+using WeddingAssist.Domain.Enums;
 
 namespace WeddingAssist.Domain.Infra
 {
@@ -13,7 +14,7 @@ namespace WeddingAssist.Domain.Infra
 
         public User GetUserByEmail(string email)
         {
-            User user = null;
+            dynamic user = null;
             using (var conn = new SqlConnection(ConnectionString))
             {
                 using (var cmd = new SqlCommand($"SELECT * FROM tb_user usr LEFT JOIN tb_fiance fic ON fic.usr_id = usr.usr_id LEFT JOIN tb_provider prv ON prv.usr_id = usr.usr_id WHERE usr_email = '{email}'", conn))
@@ -25,7 +26,30 @@ namespace WeddingAssist.Domain.Infra
                     {
                         while (reader.Read())
                         {
-                            //build Fiance
+                            if(reader[6] != DBNull.Value)
+                            {
+                                user = new Fiance();
+                                user.FianceId = (int)reader[6];
+                                user.Name = (string)reader[7];
+                                user.Birth = (DateTime)reader[8];
+                                user.Gender = (EGender)reader[9];
+                                user.Enable = (bool)reader[10];
+                            }
+                            else
+                            {
+                                user = new Provider();
+                                user.ProviderId = (int)reader[12];
+                                user.ProviderName = (string)reader[13];
+                                user.Logo = (string)reader[14];
+                                user.Enable = (bool)reader[16];
+                            }
+
+                            user.Id = (int)reader[0];
+                            user.Nickname = (string)reader[1];
+                            user.Email = (string)reader[2];
+                            user.Phone = (string)reader[3];
+                            user.AwsUserId = (string)reader[4];
+                            user.RegistrationStatus = (ERegistrationStatus)reader[5];
                         }
                     }
                     conn.Close();
@@ -62,6 +86,37 @@ namespace WeddingAssist.Domain.Infra
 
                     if (rowsAffected < 1)
                         throw new Exception("Error to save Fiance");
+
+                }
+            }
+        }
+
+        public void SaveProvider(Provider provider)
+        {
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                using (var cmd = new SqlCommand("[dbo].[User-Insert-SaveProvider]", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    //User data
+                    cmd.Parameters.AddWithValue("@usr_email", provider.Email);
+                    cmd.Parameters.AddWithValue("@usr_nickname", provider.Nickname);
+                    cmd.Parameters.AddWithValue("@usr_phone", provider.Phone);
+                    cmd.Parameters.AddWithValue("@usr_aws_user_id", provider.AwsUserId);
+                    cmd.Parameters.AddWithValue("@rst_id", (int)provider.RegistrationStatus);
+
+                    //Provider data
+                    cmd.Parameters.AddWithValue("@prv_name", provider.ProviderName);
+                    cmd.Parameters.AddWithValue("@prv_logo", provider.Logo);
+                    cmd.Parameters.AddWithValue("@prv_status", provider.Enable);
+
+                    conn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    conn.Close();
+
+                    if (rowsAffected < 1)
+                        throw new Exception("Error to save Provider");
 
                 }
             }
