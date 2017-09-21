@@ -121,5 +121,23 @@ namespace WeddingAssist.Domain.Infra
                 }
             }
         }
+
+        public void ConfirmEmail(string email)
+        {
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                using (var cmd = new SqlCommand($"UPDATE tb_user SET rst_id = {(int)ERegistrationStatus.CONFIRMED} WHERE usr_email = '{email}'", conn))
+                {
+                    cmd.CommandType = CommandType.Text;
+
+                    conn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    conn.Close();
+
+                    if (rowsAffected < 1)
+                        throw new Exception($"Error to confirm email {email}");
+                }
+            }
+        }
     }
 }

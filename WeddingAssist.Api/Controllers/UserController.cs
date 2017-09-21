@@ -64,6 +64,21 @@ namespace WeddingAssist.Api.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("confirm_email")]
+        public IActionResult ConfirmEmail([FromBody]string email)
+        {
+            try
+            {
+                UserRepository userRepository = new UserRepository();
+                userRepository.ConfirmEmail(email);
+                return Ok($"Email {email} successful confirmed!");
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
 
 
         [HttpGet]
