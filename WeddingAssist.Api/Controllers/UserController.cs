@@ -96,6 +96,22 @@ namespace WeddingAssist.Api.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("providers")]
+        public IActionResult GetAllProviders()
+        {
+            try
+            {
+                UserRepository userRepository = new UserRepository();
+                List<Provider> providers = userRepository.GetAllProviders();
+                return Ok(new { providers = providers });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
+
 
         [HttpGet]
         [Route("teste")]

@@ -177,5 +177,42 @@ namespace WeddingAssist.Domain.Infra
 
             return fiances;
         }
+
+        public List<Provider> GetAllProviders()
+        {
+            List<Provider> providers = new List<Provider>();
+
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                using (var cmd = new SqlCommand($"SELECT * FROM tb_user usr INNER JOIN tb_provider prv ON prv.usr_id = usr.usr_id", conn))
+                {
+                    cmd.CommandType = CommandType.Text;
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Provider provider = new Provider();
+                            provider.Id = (int)reader[0];
+                            provider.Nickname = (string)reader[1];
+                            provider.Email = (string)reader[2];
+                            provider.Phone = (string)reader[3];
+                            provider.AwsUserId = (string)reader[4];
+                            provider.RegistrationStatus = (ERegistrationStatus)reader[5];
+                            provider.ProviderId = (int)reader[6];
+                            provider.ProviderName = (string)reader[7];
+                            provider.Logo = (string)reader[8];
+                            provider.Enable = (bool)reader[10];
+
+                            providers.Add(provider);
+                        }
+                    }
+                    conn.Close();
+                }
+            }
+
+            return providers;
+        }
     }
 }
