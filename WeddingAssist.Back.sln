@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeddingAssist.Domain", "WeddingAssist.Domain\WeddingAssist.Domain.csproj", "{EA27BDF2-F8E1-4D6B-8B9C-3F0E68DA15CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeddingAssist.Api", "WeddingAssist.Api\WeddingAssist.Api.csproj", "{2A506253-37E6-4DAC-8EAB-150D7A8FD271}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeddingAssist.Api", "WeddingAssist.Api\WeddingAssist.Api.csproj", "{44955A86-C0E6-4433-AE4A-F2114E94E094}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{EA27BDF2-F8E1-4D6B-8B9C-3F0E68DA15CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA27BDF2-F8E1-4D6B-8B9C-3F0E68DA15CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA27BDF2-F8E1-4D6B-8B9C-3F0E68DA15CB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2A506253-37E6-4DAC-8EAB-150D7A8FD271}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2A506253-37E6-4DAC-8EAB-150D7A8FD271}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2A506253-37E6-4DAC-8EAB-150D7A8FD271}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2A506253-37E6-4DAC-8EAB-150D7A8FD271}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44955A86-C0E6-4433-AE4A-F2114E94E094}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44955A86-C0E6-4433-AE4A-F2114E94E094}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44955A86-C0E6-4433-AE4A-F2114E94E094}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44955A86-C0E6-4433-AE4A-F2114E94E094}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

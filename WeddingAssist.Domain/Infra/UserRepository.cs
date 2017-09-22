@@ -10,7 +10,7 @@ namespace WeddingAssist.Domain.Infra
 {
     public class UserRepository
     {
-        private readonly string ConnectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+        private readonly string ConnectionString = "server=wa-db-01.cwwhxvtrxmqx.us-east-1.rds.amazonaws.com,1433;user id=wassist;password=weddingassistfiap2017;database=db_wedding_assist";
 
         public User GetUserByEmail(string email)
         {
@@ -71,14 +71,14 @@ namespace WeddingAssist.Domain.Infra
                     cmd.Parameters.AddWithValue("@usr_email", fiance.Email);
                     cmd.Parameters.AddWithValue("@usr_nickname", fiance.Nickname);
                     cmd.Parameters.AddWithValue("@usr_phone", fiance.Phone);
-                    cmd.Parameters.AddWithValue("@usr_aws_user_id", fiance.AwsUserId);
-                    cmd.Parameters.AddWithValue("@rst_id", (int)fiance.RegistrationStatus);
+                    cmd.Parameters.AddWithValue("@usr_aws_user_id", "AWS_ID_HARDCODE");//fiance.AwsUserId);
+                    cmd.Parameters.AddWithValue("@rst_id", 2);//(int)fiance.RegistrationStatus);
 
                     //Fiance data
                     cmd.Parameters.AddWithValue("@fic_name", fiance.Name);
                     cmd.Parameters.AddWithValue("@fic_birth", fiance.Birth);
                     cmd.Parameters.AddWithValue("@gnd_id", (int)fiance.Gender);
-                    cmd.Parameters.AddWithValue("@fic_status", fiance.Enable);
+                    cmd.Parameters.AddWithValue("@fic_status", true);//fiance.Enable);
 
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
@@ -103,13 +103,13 @@ namespace WeddingAssist.Domain.Infra
                     cmd.Parameters.AddWithValue("@usr_email", provider.Email);
                     cmd.Parameters.AddWithValue("@usr_nickname", provider.Nickname);
                     cmd.Parameters.AddWithValue("@usr_phone", provider.Phone);
-                    cmd.Parameters.AddWithValue("@usr_aws_user_id", provider.AwsUserId);
-                    cmd.Parameters.AddWithValue("@rst_id", (int)provider.RegistrationStatus);
+                    cmd.Parameters.AddWithValue("@usr_aws_user_id", "AWS_ID_HARDCODE");// provider.AwsUserId);
+                    cmd.Parameters.AddWithValue("@rst_id", 2);//(int)provider.RegistrationStatus);
 
                     //Provider data
                     cmd.Parameters.AddWithValue("@prv_name", provider.ProviderName);
                     cmd.Parameters.AddWithValue("@prv_logo", provider.Logo);
-                    cmd.Parameters.AddWithValue("@prv_status", provider.Enable);
+                    cmd.Parameters.AddWithValue("@prv_status", true);//provider.Enable);
 
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
