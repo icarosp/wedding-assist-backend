@@ -80,6 +80,22 @@ namespace WeddingAssist.Api.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("fiances")]
+        public IActionResult GetAllFiances()
+        {
+            try
+            {
+                UserRepository userRepository = new UserRepository();
+                List<Fiance> fiances = userRepository.GetAllFiances();
+                return Ok(new { fiances = fiances });
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
+
 
         [HttpGet]
         [Route("teste")]
