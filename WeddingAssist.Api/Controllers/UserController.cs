@@ -22,9 +22,9 @@ namespace WeddingAssist.Api.Controllers
             {
                 UserRepository userRepository = new UserRepository();
                 User user = userRepository.GetUserByEmail(email);
-                if (user == null)
-                    return Ok(user);
-                return NotFound();
+                if (user != null)
+                    return Ok(new Result(user));
+                return NotFound(new Result(user, "Usuário não encontrado!"));
 
             }
             catch (Exception e)

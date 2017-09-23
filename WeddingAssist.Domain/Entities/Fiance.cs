@@ -11,5 +11,6 @@ namespace WeddingAssist.Domain.Entities
         public string Name { get; set; }
         public DateTime Birth { get; set; }
         public EGender Gender { get; set; }
+        public bool HasNewBid { get; set; }
     }
 }

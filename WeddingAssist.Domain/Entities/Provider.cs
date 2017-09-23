@@ -11,5 +11,6 @@ namespace WeddingAssist.Domain.Entities
         public string ProviderName { get; set; }
         public string Logo { get; set; }
         public List<EService> Services { get; set; }
+        public bool HasNewBudget { get; set; }
     }
 }
