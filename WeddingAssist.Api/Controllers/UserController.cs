@@ -14,18 +14,19 @@ namespace WeddingAssist.Api.Controllers
     [Route("api/[controller]")]
     public class UserController : Controller
     {
+        private UserRepository _repo = new UserRepository();
+
+
         [HttpPost]
         [Route("get_user_by_email")]
         public IActionResult CheckUserInfo([FromBody]string email)
         {
             try
             {
-                UserRepository userRepository = new UserRepository();
-                User user = userRepository.GetUserByEmail(email);
+                User user = _repo.GetUserByEmail(email);
                 if (user != null)
                     return Ok(new Result(user));
                 return NotFound(new Result(user, "Usuário não encontrado!"));
-
             }
             catch (Exception e)
             {
@@ -39,14 +40,12 @@ namespace WeddingAssist.Api.Controllers
         {
             try
             {
-                UserRepository userRepository = new UserRepository();
-
-                if (userRepository.IsEmailAlreadyRegistered(fiance.Email))
+                if (_repo.IsEmailAlreadyRegistered(fiance.Email))
                 {
                     return BadRequest(new Result(null, "Já existe um usuário cadastrado com esse email. Recupere a senha ou informe outro endereço de email."));
                 }
                 else {
-                    userRepository.SaveFiance(fiance);
+                    _repo.SaveFiance(fiance);
                     return Created("SaveFiance", new Result(null));
                 }
 
@@ -63,13 +62,18 @@ namespace WeddingAssist.Api.Controllers
         {
             try
             {
-                UserRepository userRepository = new UserRepository();
-                userRepository.SaveProvider(provider);
-                return Created("SaveProvider", provider);
+                if (_repo.IsEmailAlreadyRegistered(provider.Email))
+                {
+                    return BadRequest(new Result(null, "Já existe um usuário cadastrado com esse email. Recupere a senha ou informe outro endereço de email."));
+                }
+                else {
+                    _repo.SaveProvider(provider);
+                    return Created("SaveProvider", new Result(null));
+                }
             }
             catch (Exception e)
             {
-                return StatusCode(500, e);
+                return StatusCode(500, new Result(null, e.Message));
             }
         }
 
@@ -79,13 +83,13 @@ namespace WeddingAssist.Api.Controllers
         {
             try
             {
-                UserRepository userRepository = new UserRepository();
-                userRepository.ConfirmEmail(email);
-                return Ok($"Email {email} successful confirmed!");
+                //UserRepository userRepository = new UserRepository();
+                _repo.ConfirmEmail(email);
+                return Ok(new Result(null));
             }
             catch (Exception e)
             {
-                return StatusCode(500, e);
+                return StatusCode(500, new Result(null, e.Message));
             }
         }
 
@@ -95,8 +99,8 @@ namespace WeddingAssist.Api.Controllers
         {
             try
             {
-                UserRepository userRepository = new UserRepository();
-                List<Fiance> fiances = userRepository.GetAllFiances();
+                //UserRepository userRepository = new UserRepository();
+                List<Fiance> fiances = _repo.GetAllFiances();
                 return Ok(new { fiances = fiances });
             }
             catch (Exception e)
@@ -111,8 +115,8 @@ namespace WeddingAssist.Api.Controllers
         {
             try
             {
-                UserRepository userRepository = new UserRepository();
-                List<Provider> providers = userRepository.GetAllProviders();
+                //UserRepository userRepository = new UserRepository();
+                List<Provider> providers = _repo.GetAllProviders();
                 return Ok(new { providers = providers });
             }
             catch (Exception e)
