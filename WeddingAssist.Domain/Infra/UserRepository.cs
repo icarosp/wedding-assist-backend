@@ -59,6 +59,34 @@ namespace WeddingAssist.Domain.Infra
             return user;
         }
 
+        public bool IsEmailAlreadyRegistered(string email)
+        {
+            int numberOfUsersWithSameEmail = 0;
+
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                using (var cmd = new SqlCommand($"SELECT count(*) FROM tb_user WHERE usr_email = '{email}'", conn))
+                {
+                    cmd.CommandType = CommandType.Text;
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            numberOfUsersWithSameEmail = (int)reader[0];
+                        }
+                    }
+                    conn.Close();
+                }
+            }
+
+            if (numberOfUsersWithSameEmail == 0)
+                return false;
+            return true;
+
+        }
+
         public void SaveFiance(Fiance fiance)
         {
             using (var conn = new SqlConnection(ConnectionString))

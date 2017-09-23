@@ -7,6 +7,7 @@ using WeddingAssist.Domain.Entities;
 using WeddingAssist.Domain.Infra;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using WeddingAssist.Api.Models;
 
 namespace WeddingAssist.Api.Controllers
 {
@@ -39,12 +40,20 @@ namespace WeddingAssist.Api.Controllers
             try
             {
                 UserRepository userRepository = new UserRepository();
-                userRepository.SaveFiance(fiance);
-                return Created("SaveFiance", fiance);
+
+                if (userRepository.IsEmailAlreadyRegistered(fiance.Email))
+                {
+                    return BadRequest(new Result(null, "Já existe um usuário cadastrado com esse email. Recupere a senha ou informe outro endereço de email."));
+                }
+                else {
+                    userRepository.SaveFiance(fiance);
+                    return Created("SaveFiance", new Result(null));
+                }
+
             }
             catch (Exception e)
             {
-                return StatusCode(500, e);
+                return StatusCode(500, new Result(null, e.Message));
             }
         }
 
