@@ -129,7 +129,7 @@ namespace WeddingAssist.Domain.Infra
 
                     //User data
                     cmd.Parameters.AddWithValue("@usr_email", provider.Email);
-                    cmd.Parameters.AddWithValue("@usr_nickname", provider.Nickname);
+                    cmd.Parameters.AddWithValue("@usr_nickname", provider.ProviderName);
                     cmd.Parameters.AddWithValue("@usr_phone", provider.Phone);
                     cmd.Parameters.AddWithValue("@usr_aws_user_id", "AWS_ID_HARDCODE");// provider.AwsUserId);
                     cmd.Parameters.AddWithValue("@rst_id", 2);//(int)provider.RegistrationStatus);
