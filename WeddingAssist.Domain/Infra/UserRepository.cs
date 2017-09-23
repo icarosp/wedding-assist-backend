@@ -347,5 +347,43 @@ namespace WeddingAssist.Domain.Infra
 
             return providers;
         }
+
+        public Fiance UpdateFiance(int id, Fiance fiance)
+        {
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                using (var cmd = new SqlCommand($"", conn))
+                {
+                    cmd.CommandType = CommandType.Text;
+
+                    conn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    conn.Close();
+
+                    if (rowsAffected < 1)
+                        throw new Exception($"Error to update user!");
+                }
+            }
+            return GetFianceById(id);
+        }
+
+        public Provider UpdateProvider(int id, Provider provider)
+        {
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                using (var cmd = new SqlCommand($"", conn))
+                {
+                    cmd.CommandType = CommandType.Text;
+
+                    conn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    conn.Close();
+
+                    if (rowsAffected < 1)
+                        throw new Exception($"Error to update user!");
+                }
+            }
+            return GetProviderById(id);
+        }
     }
 }

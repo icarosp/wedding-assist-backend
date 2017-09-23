@@ -160,6 +160,36 @@ namespace WeddingAssist.Api.Controllers
             }
         }
 
+        [HttpPut]
+        [Route("provider/{id}")]
+        public IActionResult UpdateProvider([FromRoute]int id, [FromBody]Provider provider)
+        {
+            try
+            {
+                Provider updatedProvider = _repo.UpdateProvider(id, provider);
+                return Ok(new Result(updatedProvider));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new Result(null, e.Message));
+            }
+        }
+
+        [HttpPut]
+        [Route("fiance/{id}")]
+        public IActionResult UpdateFiance([FromRoute]int id, [FromBody]Fiance fiance)
+        {
+            try
+            {
+                Fiance updatedFiance = _repo.UpdateFiance(id, fiance);
+                return Ok(new Result(updatedFiance));
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500, new Result(null, e.Message));
+            }
+        }
+
         [HttpGet]
         [Route("teste")]
         public IActionResult teste()
