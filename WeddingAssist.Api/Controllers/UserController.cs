@@ -68,15 +68,14 @@ namespace WeddingAssist.Api.Controllers
                 {
                     return BadRequest(new Result(null, "Já existe um usuário cadastrado com esse email. Recupere a senha ou informe outro endereço de email."));
                 }
-
-
-                //UserRepository userRepository = new UserRepository();
-                _repo.SaveProvider(provider);
-                return Created("SaveProvider", provider);
+                else {
+                    _repo.SaveProvider(provider);
+                    return Created("SaveProvider", new Result(null));
+                }
             }
             catch (Exception e)
             {
-                return StatusCode(500, e);
+                return StatusCode(500, new Result(null, e.Message));
             }
         }
 
@@ -88,11 +87,11 @@ namespace WeddingAssist.Api.Controllers
             {
                 //UserRepository userRepository = new UserRepository();
                 _repo.ConfirmEmail(email);
-                return Ok($"Email {email} successful confirmed!");
+                return Ok(new Result(null));
             }
             catch (Exception e)
             {
-                return StatusCode(500, e);
+                return StatusCode(500, new Result(null, e.Message));
             }
         }
 
