@@ -61,6 +61,79 @@ namespace WeddingAssist.Domain.Infra
             return user;
         }
 
+        public Fiance GetFianceById(int id)
+        {
+            Fiance fiance = null;
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                using (var cmd = new SqlCommand($"SELECT * FROM tb_user usr INNER JOIN tb_fiance fic ON fic.usr_id = usr.usr_id WHERE usr.usr_id = '{id}'", conn))
+                {
+                    cmd.CommandType = CommandType.Text;
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            fiance = new Fiance();
+
+                            fiance.Id = (int)reader[0];
+                            fiance.Nickname = (string)reader[1];
+                            fiance.Email = (string)reader[2];
+                            fiance.Phone = (string)reader[3];
+                            fiance.AwsUserId = (string)reader[4];
+                            fiance.RegistrationStatus = (ERegistrationStatus)reader[5];
+                            fiance.FianceId = (int)reader[6];
+                            fiance.Name = (string)reader[7];
+                            fiance.Birth = (DateTime)reader[8];
+                            fiance.Gender = (EGender)reader[9];
+                            fiance.Enable = (bool)reader[10];
+                            fiance.HasNewBid = false;
+                        }
+                    }
+                    conn.Close();
+
+                }
+            }
+            return fiance;
+        }
+
+        public Provider GetProviderById(int id)
+        {
+            Provider provider = null;
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                using (var cmd = new SqlCommand($"SELECT * FROM tb_user usr INNER JOIN tb_provider prv ON prv.usr_id = usr.usr_id WHERE usr.usr_id = '{id}'", conn))
+                {
+                    cmd.CommandType = CommandType.Text;
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            provider = new Provider();
+
+                            provider.Id = (int)reader[0];
+                            provider.Nickname = (string)reader[1];
+                            provider.Email = (string)reader[2];
+                            provider.Phone = (string)reader[3];
+                            provider.AwsUserId = (string)reader[4];
+                            provider.RegistrationStatus = (ERegistrationStatus)reader[5];
+                            provider.ProviderId = (int)reader[6];
+                            provider.ProviderName = (string)reader[7];
+                            provider.Logo = (string)reader[8];
+                            provider.Enable = (bool)reader[10];
+                            provider.HasNewBudget = false;
+                        }
+                    }
+                    conn.Close();
+
+                }
+            }
+            return provider;
+        }
+
         public bool IsEmailAlreadyRegistered(string email)
         {
             int numberOfUsersWithSameEmail = 0;

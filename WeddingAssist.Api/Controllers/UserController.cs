@@ -127,6 +127,40 @@ namespace WeddingAssist.Api.Controllers
 
 
         [HttpGet]
+        [Route("fiance/{id}")]
+        public IActionResult GetFianceById([FromRoute]int id)
+        {
+            try
+            {
+                Fiance fiance = _repo.GetFianceById(id);
+                if (fiance != null)
+                    return Ok(new Result(fiance));
+                return NotFound(new Result(fiance, "Usuário não encontrado!"));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new Result(null, e.Message));
+            }
+        }
+
+        [HttpGet]
+        [Route("provider/{id}")]
+        public IActionResult GetProviderById([FromRoute]int id)
+        {
+            try
+            {
+                Provider provider = _repo.GetProviderById(id);
+                if (provider != null)
+                    return Ok(new Result(provider));
+                return NotFound(new Result(provider, "Usuário não encontrado!"));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new Result(null, e.Message));
+            }
+        }
+
+        [HttpGet]
         [Route("teste")]
         public IActionResult teste()
         {
