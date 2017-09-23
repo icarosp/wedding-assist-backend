@@ -133,19 +133,49 @@ namespace WeddingAssist.Domain.Infra
                     cmd.Parameters.AddWithValue("@usr_phone", provider.Phone);
                     cmd.Parameters.AddWithValue("@usr_aws_user_id", "AWS_ID_HARDCODE");// provider.AwsUserId);
                     cmd.Parameters.AddWithValue("@rst_id", 2);//(int)provider.RegistrationStatus);
+                    
 
                     //Provider data
                     cmd.Parameters.AddWithValue("@prv_name", provider.ProviderName);
                     cmd.Parameters.AddWithValue("@prv_logo", provider.Logo);
                     cmd.Parameters.AddWithValue("@prv_status", true);//provider.Enable);
+                    cmd.Parameters.Add("@providerId", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                     conn.Open();
-                    int rowsAffected = cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
                     conn.Close();
 
-                    if (rowsAffected < 1)
+                    int providerId = Convert.ToInt32(cmd.Parameters["@providerId"].Value);
+
+                    foreach (var service in provider.Services) {
+                        SaveProviderService((int)service, providerId);
+                    }
+
+                    if (providerId < 0)
                         throw new Exception("Error to save Provider");
 
+                }
+            }
+        }
+
+        public void SaveProviderService(int serviceId, int providerId)
+        {
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                using (var cmd = new SqlCommand("[dbo].[User-Insert-SaveProviderService]", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@serviceId", serviceId);
+                    cmd.Parameters.AddWithValue("@providerId", providerId);
+                    cmd.Parameters.Add("@success",SqlDbType.Bit).Direction = ParameterDirection.Output;
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+
+                    if(!(bool) cmd.Parameters["@success"].Value)
+                        throw new Exception("Error Saving ProviderService");
                 }
             }
         }
