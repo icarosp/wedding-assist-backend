@@ -288,6 +288,28 @@ namespace WeddingAssist.Domain.Infra
             }
         }
 
+        public void UpdateFiance(int id,Fiance fiance)
+        {
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand("[dbo].[User-Update-ModifyFiance]", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@fianceId", id);
+                    cmd.Parameters.AddWithValue("@usr_nickname", fiance.Nickname);
+                    cmd.Parameters.AddWithValue("@usr_phone", fiance.Phone);
+                    cmd.Parameters.AddWithValue("@fic_name", fiance.Name);
+
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+            }
+        }
+
+
         public void ConfirmEmail(string email)
         {
             using (var conn = new SqlConnection(_connectionString))
@@ -388,42 +410,42 @@ namespace WeddingAssist.Domain.Infra
             return providers;
         }
 
-        public Fiance UpdateFiance(int id, Fiance fiance)
-        {
-            using (var conn = new SqlConnection(_connectionString))
-            {
-                using (var cmd = new SqlCommand($"", conn))
-                {
-                    cmd.CommandType = CommandType.Text;
+        //public Fiance UpdateFiance(int id, Fiance fiance)
+        //{
+        //    using (var conn = new SqlConnection(_connectionString))
+        //    {
+        //        using (var cmd = new SqlCommand($"", conn))
+        //        {
+        //            cmd.CommandType = CommandType.Text;
 
-                    conn.Open();
-                    int rowsAffected = cmd.ExecuteNonQuery();
-                    conn.Close();
+        //            conn.Open();
+        //            int rowsAffected = cmd.ExecuteNonQuery();
+        //            conn.Close();
 
-                    if (rowsAffected < 1)
-                        throw new Exception($"Error to update user!");
-                }
-            }
-            return GetFianceById(id);
-        }
+        //            if (rowsAffected < 1)
+        //                throw new Exception($"Error to update user!");
+        //        }
+        //    }
+        //    return GetFianceById(id);
+        //}
 
-        public Provider UpdateProvider(int id, Provider provider)
-        {
-            using (var conn = new SqlConnection(_connectionString))
-            {
-                using (var cmd = new SqlCommand($"", conn))
-                {
-                    cmd.CommandType = CommandType.Text;
+        //public Provider UpdateProvider(int id, Provider provider)
+        //{
+        //    using (var conn = new SqlConnection(_connectionString))
+        //    {
+        //        using (var cmd = new SqlCommand($"", conn))
+        //        {
+        //            cmd.CommandType = CommandType.Text;
 
-                    conn.Open();
-                    int rowsAffected = cmd.ExecuteNonQuery();
-                    conn.Close();
+        //            conn.Open();
+        //            int rowsAffected = cmd.ExecuteNonQuery();
+        //            conn.Close();
 
-                    if (rowsAffected < 1)
-                        throw new Exception($"Error to update user!");
-                }
-            }
-            return GetProviderById(id);
-        }
+        //            if (rowsAffected < 1)
+        //                throw new Exception($"Error to update user!");
+        //        }
+        //    }
+        //    return GetProviderById(id);
+        //}
     }
 }

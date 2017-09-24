@@ -166,8 +166,8 @@ namespace WeddingAssist.Api.Controllers
         {
             try
             {
-                Provider updatedProvider = _repo.UpdateProvider(id, provider);
-                return Ok(new Result(updatedProvider));
+                //Provider updatedProvider = _repo.UpdateProvider(id, provider);
+                return Ok(new Result(null));
             }
             catch (Exception e)
             {
@@ -181,8 +181,8 @@ namespace WeddingAssist.Api.Controllers
         {
             try
             {
-                Fiance updatedFiance = _repo.UpdateFiance(id, fiance);
-                return Ok(new Result(updatedFiance));
+                _repo.UpdateFiance(id,fiance);
+                return Ok(new Result(null));
             }
             catch(Exception e)
             {
