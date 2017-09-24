@@ -101,11 +101,11 @@ namespace WeddingAssist.Api.Controllers
             {
                 //UserRepository userRepository = new UserRepository();
                 List<Fiance> fiances = _repo.GetAllFiances();
-                return Ok(new { fiances = fiances });
+                return Ok(new Result(new { fiances = fiances }));
             }
             catch (Exception e)
             {
-                return StatusCode(500, e);
+                return StatusCode(500, new Result(null, e.Message));
             }
         }
 
@@ -117,11 +117,11 @@ namespace WeddingAssist.Api.Controllers
             {
                 //UserRepository userRepository = new UserRepository();
                 List<Provider> providers = _repo.GetAllProviders();
-                return Ok(new { providers = providers });
+                return Ok(new Result(new { providers = providers }));
             }
             catch (Exception e)
             {
-                return StatusCode(500, e);
+                return StatusCode(500, new Result(null, e.Message));
             }
         }
 

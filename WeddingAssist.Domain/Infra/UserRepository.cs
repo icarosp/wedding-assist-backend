@@ -10,12 +10,12 @@ namespace WeddingAssist.Domain.Infra
 {
     public class UserRepository
     {
-        private readonly string ConnectionString = "server=wa-db-01.cwwhxvtrxmqx.us-east-1.rds.amazonaws.com,1433;user id=wassist;password=weddingassistfiap2017;database=db_wedding_assist";
+        private readonly string _connectionString = "server=wa-db-01.cwwhxvtrxmqx.us-east-1.rds.amazonaws.com,1433;user id=wassist;password=weddingassistfiap2017;database=db_wedding_assist";
 
         public User GetUserByEmail(string email)
         {
             dynamic user = null;
-            using (var conn = new SqlConnection(ConnectionString))
+            using (var conn = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand($"SELECT * FROM tb_user usr LEFT JOIN tb_fiance fic ON fic.usr_id = usr.usr_id LEFT JOIN tb_provider prv ON prv.usr_id = usr.usr_id WHERE usr_email = '{email}'", conn))
                 {
@@ -63,10 +63,35 @@ namespace WeddingAssist.Domain.Infra
             return user;
         }
 
+        public List<string> GetServicesByProviderId(int providerId)
+        {
+            List<string> services = new List<string>();
+
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand("[dbo].[Provider-Select-GetAllProviderService]", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@providerId", providerId);
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            services.Add(reader[0].ToString());
+                        }
+                    }
+                    conn.Close();
+                }
+            }
+            return services;
+        }
+
         public Fiance GetFianceById(int id)
         {
             Fiance fiance = null;
-            using (var conn = new SqlConnection(ConnectionString))
+            using (var conn = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand($"SELECT * FROM tb_user usr INNER JOIN tb_fiance fic ON fic.usr_id = usr.usr_id WHERE usr.usr_id = '{id}'", conn))
                 {
@@ -103,7 +128,7 @@ namespace WeddingAssist.Domain.Infra
         public Provider GetProviderById(int id)
         {
             Provider provider = null;
-            using (var conn = new SqlConnection(ConnectionString))
+            using (var conn = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand($"SELECT * FROM tb_user usr INNER JOIN tb_provider prv ON prv.usr_id = usr.usr_id WHERE usr.usr_id = '{id}'", conn))
                 {
@@ -127,6 +152,12 @@ namespace WeddingAssist.Domain.Infra
                             provider.Logo = (string)reader[8];
                             provider.Enable = (bool)reader[10];
                             provider.HasNewBudget = false;
+
+                            var services = GetServicesByProviderId(provider.Id);
+
+                            foreach (var service in services) {
+                                provider.Services.Add((EService)Enum.Parse(typeof(EService), service));
+                            }
                         }
                     }
                     conn.Close();
@@ -140,7 +171,7 @@ namespace WeddingAssist.Domain.Infra
         {
             int numberOfUsersWithSameEmail = 0;
 
-            using (var conn = new SqlConnection(ConnectionString))
+            using (var conn = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand($"SELECT count(*) FROM tb_user WHERE usr_email = '{email}'", conn))
                 {
@@ -166,7 +197,7 @@ namespace WeddingAssist.Domain.Infra
 
         public void SaveFiance(Fiance fiance)
         {
-            using (var conn = new SqlConnection(ConnectionString))
+            using (var conn = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand("[dbo].[User-Insert-SaveFiance]", conn))
                 {
@@ -198,7 +229,7 @@ namespace WeddingAssist.Domain.Infra
 
         public void SaveProvider(Provider provider)
         {
-            using (var conn = new SqlConnection(ConnectionString))
+            using (var conn = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand("[dbo].[User-Insert-SaveProvider]", conn))
                 {
@@ -237,7 +268,7 @@ namespace WeddingAssist.Domain.Infra
 
         public void SaveProviderService(int serviceId, int providerId)
         {
-            using (var conn = new SqlConnection(ConnectionString))
+            using (var conn = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand("[dbo].[User-Insert-SaveProviderService]", conn))
                 {
@@ -259,7 +290,7 @@ namespace WeddingAssist.Domain.Infra
 
         public void ConfirmEmail(string email)
         {
-            using (var conn = new SqlConnection(ConnectionString))
+            using (var conn = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand($"UPDATE tb_user SET rst_id = {(int)ERegistrationStatus.CONFIRMED} WHERE usr_email = '{email}'", conn))
                 {
@@ -279,7 +310,7 @@ namespace WeddingAssist.Domain.Infra
         {
             List<Fiance> fiances = new List<Fiance>();
 
-            using (var conn = new SqlConnection(ConnectionString))
+            using (var conn = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand($"SELECT * FROM tb_user usr INNER JOIN tb_fiance fic ON fic.usr_id = usr.usr_id", conn))
                 {
@@ -317,7 +348,7 @@ namespace WeddingAssist.Domain.Infra
         {
             List<Provider> providers = new List<Provider>();
 
-            using (var conn = new SqlConnection(ConnectionString))
+            using (var conn = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand($"SELECT * FROM tb_user usr INNER JOIN tb_provider prv ON prv.usr_id = usr.usr_id", conn))
                 {
@@ -340,6 +371,13 @@ namespace WeddingAssist.Domain.Infra
                             provider.Logo = (string)reader[8];
                             provider.Enable = (bool)reader[10];
 
+                            var services = GetServicesByProviderId(provider.ProviderId);
+
+                            foreach (var service in services)
+                            {
+                                provider.Services.Add((EService)Enum.Parse(typeof(EService), service));
+                            }
+
                             providers.Add(provider);
                         }
                     }
@@ -352,7 +390,7 @@ namespace WeddingAssist.Domain.Infra
 
         public Fiance UpdateFiance(int id, Fiance fiance)
         {
-            using (var conn = new SqlConnection(ConnectionString))
+            using (var conn = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand($"", conn))
                 {
@@ -371,7 +409,7 @@ namespace WeddingAssist.Domain.Infra
 
         public Provider UpdateProvider(int id, Provider provider)
         {
-            using (var conn = new SqlConnection(ConnectionString))
+            using (var conn = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand($"", conn))
                 {

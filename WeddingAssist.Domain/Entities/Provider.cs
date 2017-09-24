@@ -12,5 +12,12 @@ namespace WeddingAssist.Domain.Entities
         public string Logo { get; set; }
         public List<EService> Services { get; set; }
         public bool HasNewBudget { get; set; }
+        public int TotalOfBids { get; set; }
+        public int TotalOfWinnerBids { get; set; }
+
+        public Provider()
+        {
+            Services = new List<EService>();
+        }
     }
 }
