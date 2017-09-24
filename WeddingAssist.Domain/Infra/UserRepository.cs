@@ -93,7 +93,7 @@ namespace WeddingAssist.Domain.Infra
             Fiance fiance = null;
             using (var conn = new SqlConnection(_connectionString))
             {
-                using (var cmd = new SqlCommand($"SELECT * FROM tb_user usr INNER JOIN tb_fiance fic ON fic.usr_id = usr.usr_id WHERE usr.usr_id = '{id}'", conn))
+                using (var cmd = new SqlCommand($"SELECT * FROM tb_user usr INNER JOIN tb_fiance fic ON fic.usr_id = usr.usr_id WHERE fic.fic_id = '{id}'", conn))
                 {
                     cmd.CommandType = CommandType.Text;
 
