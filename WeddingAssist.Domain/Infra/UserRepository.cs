@@ -301,7 +301,6 @@ namespace WeddingAssist.Domain.Infra
                     cmd.Parameters.AddWithValue("@usr_phone", fiance.Phone);
                     cmd.Parameters.AddWithValue("@fic_name", fiance.Name);
 
-
                     conn.Open();
                     cmd.ExecuteNonQuery();
                     conn.Close();

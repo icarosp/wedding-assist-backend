@@ -7,8 +7,14 @@ namespace WeddingAssist.Domain.Entities
 {
     public class BudgetService
     {
-        public EService ServiceType { get; private set; }
-        public Decimal MaxBudgetService { get; private set; }
-        public IList<BudgetServiceCategory> Categories { get; private set; }
+        public int BudgetId { get; set; }
+        public EService ServiceType { get; set; }
+        //public Decimal MaxBudgetService { get; set; }
+        public IList<BudgetServiceCategory> Categories { get; set; }
+
+        public BudgetService()
+        {
+            Categories = new List<BudgetServiceCategory>();
+        }
     }
 }
