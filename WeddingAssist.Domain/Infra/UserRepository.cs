@@ -130,7 +130,7 @@ namespace WeddingAssist.Domain.Infra
             Provider provider = null;
             using (var conn = new SqlConnection(_connectionString))
             {
-                using (var cmd = new SqlCommand($"SELECT * FROM tb_user usr INNER JOIN tb_provider prv ON prv.usr_id = usr.usr_id WHERE usr.usr_id = '{id}'", conn))
+                using (var cmd = new SqlCommand($"SELECT * FROM tb_user usr INNER JOIN tb_provider prv ON prv.usr_id = usr.usr_id WHERE prv.prv_id = '{id}'", conn))
                 {
                     cmd.CommandType = CommandType.Text;
 
@@ -409,25 +409,6 @@ namespace WeddingAssist.Domain.Infra
 
             return providers;
         }
-
-        //public Fiance UpdateFiance(int id, Fiance fiance)
-        //{
-        //    using (var conn = new SqlConnection(_connectionString))
-        //    {
-        //        using (var cmd = new SqlCommand($"", conn))
-        //        {
-        //            cmd.CommandType = CommandType.Text;
-
-        //            conn.Open();
-        //            int rowsAffected = cmd.ExecuteNonQuery();
-        //            conn.Close();
-
-        //            if (rowsAffected < 1)
-        //                throw new Exception($"Error to update user!");
-        //        }
-        //    }
-        //    return GetFianceById(id);
-        //}
 
         //public Provider UpdateProvider(int id, Provider provider)
         //{
