@@ -14,6 +14,7 @@ namespace WeddingAssist.Domain.Entities
         public ERegistrationStatus RegistrationStatus { get; set; }
         public bool Enable { get; set; }
         public string Nickname { get; set; }
+        public EUserType UserType { get; set; }
     }
 }
 

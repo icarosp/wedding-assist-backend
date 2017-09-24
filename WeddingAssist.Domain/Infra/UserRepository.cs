@@ -35,6 +35,7 @@ namespace WeddingAssist.Domain.Infra
                                 user.Gender = (EGender)reader[9];
                                 user.Enable = (bool)reader[10];
                                 user.HasNewBid = false;
+                                user.UserType = EUserType.FIANCE;
                             }
                             else
                             {
@@ -44,6 +45,7 @@ namespace WeddingAssist.Domain.Infra
                                 user.Logo = (string)reader[14];
                                 user.Enable = (bool)reader[16];
                                 user.HasNewBudget = false;
+                                user.UserType = EUserType.PROVIDER;
                             }
 
                             user.Id = (int)reader[0];
