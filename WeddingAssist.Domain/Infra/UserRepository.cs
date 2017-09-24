@@ -410,23 +410,68 @@ namespace WeddingAssist.Domain.Infra
             return providers;
         }
 
-        //public Provider UpdateProvider(int id, Provider provider)
+        public void UpdateProvider(int id, Provider provider)
+        {
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand("[dbo].[User-Update-ModifyProvider]", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@providerId", id);
+                    cmd.Parameters.AddWithValue("@prv_name", provider.ProviderName);
+                    cmd.Parameters.AddWithValue("@usr_phone", provider.Phone);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+
+                    //DELETE ALL
+                    DeleteAllProviderServices(id);
+
+                    //INSERT NEW
+                    foreach (var service in provider.Services) {
+                        SaveProviderService((int)service,id);
+                    }
+                }
+            }
+
+             
+        }
+
+        public void DeleteAllProviderServices(int providerId)
+        {
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand("[dbo].[User-Delete-DeleteAllProviderServices]", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@providerId", providerId);
+
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                    conn.Close();
+                }
+            }
+        }
+
+        //public void ModifyProviderService(int providerId, int serviceId)
         //{
         //    using (var conn = new SqlConnection(_connectionString))
         //    {
-        //        using (var cmd = new SqlCommand($"", conn))
+        //        using (var cmd = new SqlCommand("[dbo].[User-Update-ModifyProviderServices]", conn))
         //        {
-        //            cmd.CommandType = CommandType.Text;
+        //            cmd.CommandType = CommandType.StoredProcedure;
+
+        //            cmd.Parameters.AddWithValue("@providerId", providerId);
+        //            cmd.Parameters.AddWithValue("@serviceId", serviceId);
 
         //            conn.Open();
-        //            int rowsAffected = cmd.ExecuteNonQuery();
+        //            cmd.ExecuteNonQuery();
         //            conn.Close();
-
-        //            if (rowsAffected < 1)
-        //                throw new Exception($"Error to update user!");
         //        }
         //    }
-        //    return GetProviderById(id);
         //}
     }
 }

@@ -166,7 +166,7 @@ namespace WeddingAssist.Api.Controllers
         {
             try
             {
-                //Provider updatedProvider = _repo.UpdateProvider(id, provider);
+                _repo.UpdateProvider(id, provider);
                 return Ok(new Result(null));
             }
             catch (Exception e)
