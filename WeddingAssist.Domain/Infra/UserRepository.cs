@@ -153,7 +153,7 @@ namespace WeddingAssist.Domain.Infra
                             provider.Enable = (bool)reader[10];
                             provider.HasNewBudget = false;
 
-                            var services = GetServicesByProviderId(provider.Id);
+                            var services = GetServicesByProviderId(provider.ProviderId);
 
                             foreach (var service in services) {
                                 provider.Services.Add((EService)Enum.Parse(typeof(EService), service));
