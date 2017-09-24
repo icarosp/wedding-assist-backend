@@ -12,5 +12,15 @@ namespace WeddingAssist.Domain.Entities
         public DateTime Birth { get; set; }
         public EGender Gender { get; set; }
         public bool HasNewBid { get; set; }
+        public int Age
+        {
+            get { var today = DateTime.Today;
+                var age = today.Year - Birth.Year;
+                if (Birth > today.AddYears(-age))
+                    age--;
+                return age;
+            }
+            set { }
+        }
     }
-}
+ }
