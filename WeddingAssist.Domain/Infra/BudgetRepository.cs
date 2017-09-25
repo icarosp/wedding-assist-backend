@@ -42,7 +42,9 @@ namespace WeddingAssist.Domain.Infra
                         SaveBudgetService(budgetId, budgetService);
                     }
 
-                    return SaveAuction(budgetId, 1); //check here later
+                    int auctionId = SaveAuction(budgetId, budget.Duration);
+
+                    return auctionId; //check here later
                 }
             }
         }
@@ -169,7 +171,7 @@ namespace WeddingAssist.Domain.Infra
             }
         }
 
-        private int SaveAuction(int budgetId, int duration)
+        private int SaveAuction(int budgetId, DateTime endDate)
         {
             using (var conn = new SqlConnection(_connectionString))
             {
@@ -179,8 +181,8 @@ namespace WeddingAssist.Domain.Infra
 
                     //Auction data
                     cmd.Parameters.AddWithValue("@fk_bdtId", budgetId);
-                    cmd.Parameters.AddWithValue("@act_startDate", DateTime.Now.ToString());
-                    cmd.Parameters.AddWithValue("@act_endDate", DateTime.Now.AddDays(1));//alterar para duration
+                    cmd.Parameters.AddWithValue("@act_startDate", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@act_endDate", endDate);
                     cmd.Parameters.Add("@id_act", SqlDbType.Int).Direction = ParameterDirection.Output;
 
 
