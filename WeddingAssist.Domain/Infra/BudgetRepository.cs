@@ -175,7 +175,7 @@ namespace WeddingAssist.Domain.Infra
             return items;
         }
 
-        public List<AuctionBudget> GetBudgetsByFiance(int id)
+        public List<AuctionBudget> GetBudgetsByCoupleId(int id)
         {
             List<AuctionBudget> budgets = new List<AuctionBudget>();
             using (var conn = new SqlConnection(_connectionString))
@@ -194,9 +194,10 @@ namespace WeddingAssist.Domain.Infra
                             AuctionBudget newBudget = new AuctionBudget();
 
                             newBudget.AuctionId = (int)reader[0];
+                            newBudget.BudgetId = (int)reader[3];
                             newBudget.StartDate = Convert.ToDateTime(reader[1]);
                             newBudget.EndDate = Convert.ToDateTime(reader[2]);
-                            newBudget.IsActive = (int) reader[3];
+                            newBudget.IsActive = Convert.ToBoolean(reader[4]);
 
 
                             //GET BUDGET PROPS
