@@ -164,6 +164,7 @@ namespace WeddingAssist.Domain.Infra
                             item.ItemId = (int)reader[0];
                             item.CategoryId = (int)reader[1];
                             item.Type = (EBudgetCategoryItem) reader[2];
+                            item.Description = Convert.ToString(reader[7]);
                             item.PeopleQuantity = Convert.ToInt32(reader[3]);
 
                             items.Add(item);
@@ -288,6 +289,7 @@ namespace WeddingAssist.Domain.Infra
                     cmd.Parameters.AddWithValue("@fk_itemid", (int)item.Type);
                     cmd.Parameters.AddWithValue("@itmQuantity", item.PeopleQuantity);
                     cmd.Parameters.AddWithValue("@maxAmount", 0);
+                    cmd.Parameters.AddWithValue("@description", item.Description);
                     cmd.Parameters.Add("@itemid", SqlDbType.Int).Direction = ParameterDirection.Output;
 
 
