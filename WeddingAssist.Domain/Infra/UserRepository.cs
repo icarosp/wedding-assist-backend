@@ -17,7 +17,7 @@ namespace WeddingAssist.Domain.Infra
             dynamic user = null;
             using (var conn = new SqlConnection(_connectionString))
             {
-                using (var cmd = new SqlCommand($"SELECT * FROM tb_user usr LEFT JOIN tb_fiance fic ON fic.usr_id = usr.usr_id LEFT JOIN tb_provider prv ON prv.usr_id = usr.usr_id right join tb_couple c on c.fic_id_one = fic.fic_id WHERE usr_email = '{email}'", conn))
+                using (var cmd = new SqlCommand($"SELECT * FROM tb_user usr LEFT JOIN tb_fiance fic ON fic.usr_id = usr.usr_id LEFT JOIN tb_provider prv ON prv.usr_id = usr.usr_id LEFT join tb_couple c on c.fic_id_one = fic.fic_id WHERE usr_email = '{email}'", conn))
                 {
                     cmd.CommandType = CommandType.Text;
                     
@@ -30,7 +30,7 @@ namespace WeddingAssist.Domain.Infra
                             {
                                 user = new Fiance();
                                 user.FianceId = (int)reader[6];
-                                user.Name = (string)reader[7];
+                                user.Name = Convert.ToString(reader[7]);
                                 user.Birth = (DateTime)reader[8];
                                 user.Gender = (EGender)reader[9];
                                 user.Enable = (bool)reader[10];
@@ -42,8 +42,8 @@ namespace WeddingAssist.Domain.Infra
                             {
                                 user = new Provider();
                                 user.ProviderId = (int)reader[12];
-                                user.ProviderName = (string)reader[13];
-                                user.Logo = (string)reader[14];
+                                user.ProviderName = Convert.ToString(reader[13]);
+                                user.Logo = Convert.ToString(reader[14]);
                                 user.Enable = (bool)reader[16];
                                 user.HasNewBudget = false;
                                 user.UserType = EUserType.PROVIDER;
@@ -51,9 +51,9 @@ namespace WeddingAssist.Domain.Infra
 
                             user.Id = (int)reader[0];
                             user.Nickname = Convert.ToString(reader[1]);
-                            user.Email = (string)reader[2];
-                            user.Phone = (string)reader[3];
-                            user.AwsUserId = (string)reader[4];
+                            user.Email = Convert.ToString(reader[2]);
+                            user.Phone = Convert.ToString(reader[3]);
+                            user.AwsUserId = Convert.ToString(reader[4]);
                             user.RegistrationStatus = (ERegistrationStatus)reader[5];
                         }
                     }
@@ -143,14 +143,14 @@ namespace WeddingAssist.Domain.Infra
                             provider = new Provider();
 
                             provider.Id = (int)reader[0];
-                            provider.Nickname = (string)reader[1];
-                            provider.Email = (string)reader[2];
-                            provider.Phone = (string)reader[3];
-                            provider.AwsUserId = (string)reader[4];
+                            provider.Nickname = Convert.ToString(reader[1]);
+                            provider.Email = Convert.ToString(reader[2]);
+                            provider.Phone = Convert.ToString(reader[3]);
+                            provider.AwsUserId = Convert.ToString(reader[4]);
                             provider.RegistrationStatus = (ERegistrationStatus)reader[5];
                             provider.ProviderId = (int)reader[6];
-                            provider.ProviderName = (string)reader[7];
-                            provider.Logo = (string)reader[8];
+                            provider.ProviderName = Convert.ToString(reader[7]);
+                            provider.Logo = Convert.ToString(reader[8]);
                             provider.Enable = (bool)reader[10];
                             provider.HasNewBudget = false;
 
@@ -345,13 +345,13 @@ namespace WeddingAssist.Domain.Infra
                         {
                             Fiance fiance = new Fiance();
                             fiance.Id = (int)reader[0];
-                            fiance.Nickname = (string)reader[1];
-                            fiance.Email = (string)reader[2];
-                            fiance.Phone = (string)reader[3];
-                            fiance.AwsUserId = (string)reader[4];
+                            fiance.Nickname = Convert.ToString(reader[1]);
+                            fiance.Email = Convert.ToString(reader[2]);
+                            fiance.Phone = Convert.ToString(reader[3]);
+                            fiance.AwsUserId = Convert.ToString(reader[4]);
                             fiance.RegistrationStatus = (ERegistrationStatus)reader[5];
                             fiance.FianceId = (int)reader[6];
-                            fiance.Name = (string)reader[7];
+                            fiance.Name = Convert.ToString(reader[7]);
                             fiance.Birth = (DateTime)reader[8];
                             fiance.Gender = (EGender)reader[9];
                             fiance.Enable = (bool)reader[10];
@@ -383,14 +383,14 @@ namespace WeddingAssist.Domain.Infra
                         {
                             Provider provider = new Provider();
                             provider.Id = (int)reader[0];
-                            provider.Nickname = (string)reader[1];
-                            provider.Email = (string)reader[2];
-                            provider.Phone = (string)reader[3];
-                            provider.AwsUserId = (string)reader[4];
+                            provider.Nickname = Convert.ToString(reader[1]);
+                            provider.Email = Convert.ToString(reader[2]);
+                            provider.Phone = Convert.ToString(reader[3]);
+                            provider.AwsUserId = Convert.ToString(reader[4]);
                             provider.RegistrationStatus = (ERegistrationStatus)reader[5];
                             provider.ProviderId = (int)reader[6];
-                            provider.ProviderName = (string)reader[7];
-                            provider.Logo = (string)reader[8];
+                            provider.ProviderName = Convert.ToString(reader[7]);
+                            provider.Logo = Convert.ToString(reader[8]);
                             provider.Enable = (bool)reader[10];
 
                             var services = GetServicesByProviderId(provider.ProviderId);
