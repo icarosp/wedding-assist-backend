@@ -7,6 +7,7 @@ namespace WeddingAssist.Domain.Entities
 {
     public class Fiance : User
     {
+        public int CoupleId { get; set; }
         public int FianceId { get; set; }
         public string Name { get; set; }
         public DateTime Birth { get; set; }

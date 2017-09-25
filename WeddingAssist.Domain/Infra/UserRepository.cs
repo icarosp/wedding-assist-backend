@@ -17,7 +17,7 @@ namespace WeddingAssist.Domain.Infra
             dynamic user = null;
             using (var conn = new SqlConnection(_connectionString))
             {
-                using (var cmd = new SqlCommand($"SELECT * FROM tb_user usr LEFT JOIN tb_fiance fic ON fic.usr_id = usr.usr_id LEFT JOIN tb_provider prv ON prv.usr_id = usr.usr_id WHERE usr_email = '{email}'", conn))
+                using (var cmd = new SqlCommand($"SELECT * FROM tb_user usr LEFT JOIN tb_fiance fic ON fic.usr_id = usr.usr_id LEFT JOIN tb_provider prv ON prv.usr_id = usr.usr_id right join tb_couple c on c.fic_id_one = fic.fic_id WHERE usr_email = '{email}'", conn))
                 {
                     cmd.CommandType = CommandType.Text;
                     
@@ -36,6 +36,7 @@ namespace WeddingAssist.Domain.Infra
                                 user.Enable = (bool)reader[10];
                                 user.HasNewBid = false;
                                 user.UserType = EUserType.FIANCE;
+                                user.CoupleId = Convert.ToInt32(reader[18]);
                             }
                             else
                             {
@@ -49,7 +50,7 @@ namespace WeddingAssist.Domain.Infra
                             }
 
                             user.Id = (int)reader[0];
-                            user.Nickname = (string)reader[1];
+                            user.Nickname = Convert.ToString(reader[1]);
                             user.Email = (string)reader[2];
                             user.Phone = (string)reader[3];
                             user.AwsUserId = (string)reader[4];
