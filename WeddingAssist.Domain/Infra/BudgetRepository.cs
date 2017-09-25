@@ -187,7 +187,7 @@ namespace WeddingAssist.Domain.Infra
 
                     //Auction data
                     cmd.Parameters.AddWithValue("@fk_bdtId", budgetId);
-                    cmd.Parameters.AddWithValue("@act_startDate", DateTime.Now.ToString());
+                    cmd.Parameters.AddWithValue("@act_startDate", DateTime.Now);
                     cmd.Parameters.AddWithValue("@act_endDate", endDate);
                     cmd.Parameters.Add("@id_act", SqlDbType.Int).Direction = ParameterDirection.Output;
 
