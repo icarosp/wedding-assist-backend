@@ -22,8 +22,8 @@ namespace WeddingAssist.Domain.Infra
                     //Budget data
                     cmd.Parameters.AddWithValue("@fk_couple", budget.CoupleId);
                     cmd.Parameters.AddWithValue("@fk_bidPriority", DBNull.Value);
-                    cmd.Parameters.AddWithValue("@duration", budget.Duration); // CHANGE PROP TYPE
-                    cmd.Parameters.AddWithValue("@maxAmount", 12.34);
+                    cmd.Parameters.AddWithValue("@duration", 0); // CHANGE PROP TYPE
+                    cmd.Parameters.AddWithValue("@maxAmount", 0);
                     cmd.Parameters.Add("@bdtId", SqlDbType.Int).Direction = ParameterDirection.Output;
 
 
@@ -87,7 +87,7 @@ namespace WeddingAssist.Domain.Infra
                     //BudgetService data
                     cmd.Parameters.AddWithValue("@fk_budgetid", budgetId);
                     cmd.Parameters.AddWithValue("@fk_serviceid", (int)budgetService.ServiceType);
-                    cmd.Parameters.AddWithValue("@maxAmount", 12.34);
+                    cmd.Parameters.AddWithValue("@maxAmount", 0);
                     cmd.Parameters.Add("@budgetserviceid", SqlDbType.Int).Direction = ParameterDirection.Output;
 
 
@@ -152,7 +152,7 @@ namespace WeddingAssist.Domain.Infra
                     cmd.Parameters.AddWithValue("@fk_categoryid", categoryId);
                     cmd.Parameters.AddWithValue("@fk_itemid", (int)item.Type);
                     cmd.Parameters.AddWithValue("@itmQuantity", item.PeopleQuantity);
-                    cmd.Parameters.AddWithValue("@maxAmount", 12.34);
+                    cmd.Parameters.AddWithValue("@maxAmount", 0);
                     cmd.Parameters.Add("@itemid", SqlDbType.Int).Direction = ParameterDirection.Output;
 
 
