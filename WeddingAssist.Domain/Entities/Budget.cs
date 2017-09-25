@@ -5,7 +5,7 @@ using WeddingAssist.Domain.Enums;
 
 namespace WeddingAssist.Domain.Entities
 {
-    public class AuctionBudget
+    public class Budget
     {
         public int CoupleId { get; set; }
         public IList<BudgetService> Services { get; set; }
@@ -14,7 +14,7 @@ namespace WeddingAssist.Domain.Entities
         public DateTime Duration { get; set; }
         //public List<EBidPriorityOrder> Priority { get; private set; }
 
-        public AuctionBudget()
+        public Budget()
         {
             StartDate = DateTime.Now;
             Services = new List<BudgetService>();

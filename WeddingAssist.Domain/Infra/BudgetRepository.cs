@@ -11,7 +11,7 @@ namespace WeddingAssist.Domain.Infra
     {
         private readonly string _connectionString = "server=wa-db-01.cwwhxvtrxmqx.us-east-1.rds.amazonaws.com,1433;user id=wassist;password=weddingassistfiap2017;database=db_wedding_assist";
 
-        public int SaveBudget(AuctionBudget budget)
+        public int SaveBudget(Budget budget)
         {
             using (var conn = new SqlConnection(_connectionString))
             {
@@ -52,11 +52,9 @@ namespace WeddingAssist.Domain.Infra
         public List<AuctionBudget> GetBudgetsByFiance(int id)
         {
             List<AuctionBudget> budgets = new List<AuctionBudget>();
-
-
             using (var conn = new SqlConnection(_connectionString))
             {
-                using (var cmd = new SqlCommand("[dbo].[Auction-Select-GetAllAuctionsByFiance]", conn))
+                using (var cmd = new SqlCommand("[dbo].[Auction-Select-GetAllAuctionsByCoupleId]", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -69,7 +67,13 @@ namespace WeddingAssist.Domain.Infra
                         {
                             AuctionBudget newBudget = new AuctionBudget();
 
+                            newBudget.AuctionId = (int)reader[0];
+                            newBudget.StartDate = Convert.ToDateTime(reader[1]);
+                            newBudget.StartDate = Convert.ToDateTime(reader[2]);
+                            newBudget.IsActive = (int) reader[3];
 
+
+                            //GET BUDGET PROPS
 
                             budgets.Add(newBudget);
                         }
@@ -183,7 +187,7 @@ namespace WeddingAssist.Domain.Infra
 
                     //Auction data
                     cmd.Parameters.AddWithValue("@fk_bdtId", budgetId);
-                    cmd.Parameters.AddWithValue("@act_startDate", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@act_startDate", DateTime.Now.ToString());
                     cmd.Parameters.AddWithValue("@act_endDate", endDate);
                     cmd.Parameters.Add("@id_act", SqlDbType.Int).Direction = ParameterDirection.Output;
 

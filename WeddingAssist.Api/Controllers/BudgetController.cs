@@ -20,7 +20,7 @@ namespace WeddingAssist.Api.Controllers
 
         [HttpPost]
         [Route("save_budget")]
-        public IActionResult SaveBudget([FromBody] Domain.Entities.AuctionBudget budget)
+        public IActionResult SaveBudget([FromBody] Budget budget)
         {
             try
             {
