@@ -8,10 +8,10 @@ namespace WeddingAssist.Domain.Entities
     public class Budget
     {
         public int CoupleId { get; set; }
-        public IList<BudgetService> Services { get; private set; }
+        public IList<BudgetService> Services { get; set; }
         //public Decimal BudgetAmount { get; private set; }
-        public DateTime StartDate { get; private set; }
-        public DateTime Duration { get; private set; }
+        public DateTime StartDate { get; set; }
+        public int Duration { get; set; }
         //public List<EBidPriorityOrder> Priority { get; private set; }
 
         public Budget()
