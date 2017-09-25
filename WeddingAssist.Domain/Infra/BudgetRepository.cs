@@ -56,11 +56,11 @@ namespace WeddingAssist.Domain.Infra
 
             using (var conn = new SqlConnection(_connectionString))
             {
-                using (var cmd = new SqlCommand("PROC-NAME", conn))
+                using (var cmd = new SqlCommand("[dbo].[Auction-Select-GetAllAuctionsByFiance]", conn))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@fianceId", id);
+                    cmd.Parameters.AddWithValue("@coupleId", id);
 
                     conn.Open();
                     using (var reader = cmd.ExecuteReader())
@@ -68,6 +68,8 @@ namespace WeddingAssist.Domain.Infra
                         while (reader.Read())
                         {
                             AuctionBudget newBudget = new AuctionBudget();
+
+
 
                             budgets.Add(newBudget);
                         }

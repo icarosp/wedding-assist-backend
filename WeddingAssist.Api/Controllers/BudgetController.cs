@@ -39,7 +39,7 @@ namespace WeddingAssist.Api.Controllers
         {
             try
             {
-                List<Models.AuctionBudget> budgets = _repo.GetBudgetsByFiance(id);
+                List<Domain.Entities.AuctionBudget> budgets = _repo.GetBudgetsByFiance(id);
                 return Ok(new Result(budgets));
             }
             catch (Exception e)
