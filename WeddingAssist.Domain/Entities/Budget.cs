@@ -7,6 +7,7 @@ namespace WeddingAssist.Domain.Entities
 {
     public class Budget
     {
+        public int BudgetId { get; set; }
         public int CoupleId { get; set; }
         public IList<BudgetService> Services { get; set; }
         //public Decimal BudgetAmount { get; private set; }

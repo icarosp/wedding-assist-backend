@@ -34,6 +34,21 @@ namespace WeddingAssist.Api.Controllers
         }
 
         [HttpGet]
+        [Route("get_budget/{id}")]
+        public IActionResult GetBudgetById([FromRoute]int id)
+        {
+            try
+            {
+                Budget budget = _repo.GetBudgetById(id);
+                return Ok(new Result(budget));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new Result(null, e.Message));
+            }
+        }
+
+        [HttpGet]
         [Route("get_budgets_by_fiance/{id}")]
         public IActionResult GetBudgesByFiance([FromRoute]int id)
         {

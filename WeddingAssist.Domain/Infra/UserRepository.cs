@@ -10,7 +10,7 @@ namespace WeddingAssist.Domain.Infra
 {
     public class UserRepository
     {
-        private readonly string _connectionString = "server=wa-db-01.cwwhxvtrxmqx.us-east-1.rds.amazonaws.com,1433;user id=wassist;password=weddingassistfiap2017;database=db_wedding_assist";
+        private readonly string _connectionString = "server=wa-db-02.cwwhxvtrxmqx.us-east-1.rds.amazonaws.com,1433;user id=wassist;password=weddingassistfiap2017;database=db_wedding_assist";
 
         public User GetUserByEmail(string email)
         {

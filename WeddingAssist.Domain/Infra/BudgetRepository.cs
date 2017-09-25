@@ -4,12 +4,13 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using WeddingAssist.Domain.Entities;
+using WeddingAssist.Domain.Enums;
 
 namespace WeddingAssist.Domain.Infra
 {
     public class BudgetRepository
     {
-        private readonly string _connectionString = "server=wa-db-01.cwwhxvtrxmqx.us-east-1.rds.amazonaws.com,1433;user id=wassist;password=weddingassistfiap2017;database=db_wedding_assist";
+        private readonly string _connectionString = "server=wa-db-02.cwwhxvtrxmqx.us-east-1.rds.amazonaws.com,1433;user id=wassist;password=weddingassistfiap2017;database=db_wedding_assist";
 
         public int SaveBudget(Budget budget)
         {
@@ -25,8 +26,6 @@ namespace WeddingAssist.Domain.Infra
                     cmd.Parameters.AddWithValue("@duration", 0); // CHANGE PROP TYPE
                     cmd.Parameters.AddWithValue("@maxAmount", 0);
                     cmd.Parameters.Add("@bdtId", SqlDbType.Int).Direction = ParameterDirection.Output;
-
-
 
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
@@ -49,6 +48,133 @@ namespace WeddingAssist.Domain.Infra
             }
         }
 
+        public Budget GetBudgetById(int id)
+        {
+            Budget budget = new Budget();
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand("[dbo].[Budget-Select-GetBudgetById]", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@budgetId", id);
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+
+                           budget.BudgetId = (int)reader[0];
+                           budget.StartDate = Convert.ToDateTime(reader[2]);
+
+                            budget.Services = GetServicesByBudgetId(budget.BudgetId);
+                        }
+                    }
+                    conn.Close();
+                }
+            }
+            return budget;
+        }
+
+        public List<BudgetService> GetServicesByBudgetId(int id)
+        {
+            List<BudgetService> services = new List<BudgetService>();
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand("[dbo].[Service-Select-GetServiceBudgetById]", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@budgetId", id);
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            BudgetService service = new BudgetService();
+
+                            service.ServiceId = (int)reader[0];
+                            service.BudgetId = id;
+                            service.ServiceType = (EService) reader[2];
+
+                            service.Categories = GetCategoryByServiceId(service.ServiceId);
+
+
+                            services.Add(service);
+                        }
+                    }
+                    conn.Close();
+                }
+            }
+            return services;
+        }
+
+        public List<BudgetServiceCategory> GetCategoryByServiceId(int id)
+        {
+            List<BudgetServiceCategory> categories = new List<BudgetServiceCategory>();
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand("[dbo].[Category-Select-GetCategoryByServiceId]", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@budgetServiceId", id);
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            BudgetServiceCategory category = new BudgetServiceCategory();
+
+                            category.CategoryId = (int) reader[0];
+                            category.ServiceId = id;
+                            category.Category = (EBudgetServiceCategory) reader[2];
+                            category.Items = GetItemsByCategoryId(category.CategoryId);
+
+                            categories.Add(category);
+                        }
+                    }
+                    conn.Close();
+                }
+            }
+            return categories;
+        }
+
+        public List<BudgetCategoryItem> GetItemsByCategoryId(int id)
+        {
+            List<BudgetCategoryItem> items = new List<BudgetCategoryItem>();
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand("[dbo].[Item-Select-GetByCategoryId]", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@categoryId", id);
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            BudgetCategoryItem item = new BudgetCategoryItem();
+
+                            item.ItemId = (int)reader[0];
+                            item.CategoryId = (int)reader[1];
+                            item.Type = (EBudgetCategoryItem) reader[2];
+                            item.PeopleQuantity = Convert.ToInt32(reader[3]);
+
+                            items.Add(item);
+                        }
+                    }
+                    conn.Close();
+                }
+            }
+            return items;
+        }
+
         public List<AuctionBudget> GetBudgetsByFiance(int id)
         {
             List<AuctionBudget> budgets = new List<AuctionBudget>();
@@ -69,7 +195,7 @@ namespace WeddingAssist.Domain.Infra
 
                             newBudget.AuctionId = (int)reader[0];
                             newBudget.StartDate = Convert.ToDateTime(reader[1]);
-                            newBudget.StartDate = Convert.ToDateTime(reader[2]);
+                            newBudget.EndDate = Convert.ToDateTime(reader[2]);
                             newBudget.IsActive = (int) reader[3];
 
 

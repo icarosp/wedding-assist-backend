@@ -7,6 +7,7 @@ namespace WeddingAssist.Domain.Entities
 {
     public class BudgetService
     {
+        public int ServiceId { get; set; }
         public int BudgetId { get; set; }
         public EService ServiceType { get; set; }
         //public Decimal MaxBudgetService { get; set; }

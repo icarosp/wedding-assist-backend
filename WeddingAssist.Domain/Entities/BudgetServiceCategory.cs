@@ -7,6 +7,8 @@ namespace WeddingAssist.Domain.Entities
 {
     public class BudgetServiceCategory
     {
+        public int ServiceId { get; set; }
+        public int CategoryId { get; set; }
         public IList<BudgetCategoryItem> Items { get; set; } //make it null
 
         public EBudgetServiceCategory Category { get; set; }
