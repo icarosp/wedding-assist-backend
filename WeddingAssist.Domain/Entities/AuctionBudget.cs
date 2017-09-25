@@ -18,7 +18,7 @@ namespace WeddingAssist.Domain.Entities
         {
             get
             {
-                return this.StartDate.ToString("dd/MM/yyyy hh:mm");
+                return this.StartDate.ToString("dd/MM/yyyy HH:mm:ss");
             }
             set { }
         }
@@ -27,7 +27,7 @@ namespace WeddingAssist.Domain.Entities
         {
             get
             {
-                return this.EndDate.ToString("dd/MM/yyyy hh:mm");
+                return this.EndDate.ToString("dd/MM/yyyy HH:mm:ss");
             }
             set { }
         }

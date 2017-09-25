@@ -106,13 +106,13 @@ namespace WeddingAssist.Domain.Infra
                             fiance = new Fiance();
 
                             fiance.Id = (int)reader[0];
-                            fiance.Nickname = (string)reader[1];
-                            fiance.Email = (string)reader[2];
-                            fiance.Phone = (string)reader[3];
-                            fiance.AwsUserId = (string)reader[4];
+                            fiance.Nickname = Convert.ToString(reader[1]);
+                            fiance.Email = Convert.ToString(reader[2]);
+                            fiance.Phone = Convert.ToString(reader[3]);
+                            fiance.AwsUserId = Convert.ToString(reader[4]);
                             fiance.RegistrationStatus = (ERegistrationStatus)reader[5];
                             fiance.FianceId = (int)reader[6];
-                            fiance.Name = (string)reader[7];
+                            fiance.Name = Convert.ToString(reader[7]);
                             fiance.Birth = (DateTime)reader[8];
                             fiance.Gender = (EGender)reader[9];
                             fiance.Enable = (bool)reader[10];
