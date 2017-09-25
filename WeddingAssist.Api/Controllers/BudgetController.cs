@@ -20,7 +20,7 @@ namespace WeddingAssist.Api.Controllers
 
         [HttpPost]
         [Route("save_budget")]
-        public IActionResult SaveBudget([FromBody] Budget budget)
+        public IActionResult SaveBudget([FromBody] Domain.Entities.AuctionBudget budget)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace WeddingAssist.Api.Controllers
         {
             try
             {
-                List<Budget> budgets = _repo.GetBudgetsByFiance(id);
+                List<Models.AuctionBudget> budgets = _repo.GetBudgetsByFiance(id);
                 return Ok(new Result(budgets));
             }
             catch (Exception e)

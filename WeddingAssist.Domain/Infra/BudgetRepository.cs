@@ -11,7 +11,7 @@ namespace WeddingAssist.Domain.Infra
     {
         private readonly string _connectionString = "server=wa-db-01.cwwhxvtrxmqx.us-east-1.rds.amazonaws.com,1433;user id=wassist;password=weddingassistfiap2017;database=db_wedding_assist";
 
-        public int SaveBudget(Budget budget)
+        public int SaveBudget(AuctionBudget budget)
         {
             using (var conn = new SqlConnection(_connectionString))
             {
@@ -49,9 +49,11 @@ namespace WeddingAssist.Domain.Infra
             }
         }
 
-        public List<Budget> GetBudgetsByFiance(int id)
+        public List<AuctionBudget> GetBudgetsByFiance(int id)
         {
-            List<Budget> budgets = new List<Budget>();
+            List<AuctionBudget> budgets = new List<AuctionBudget>();
+
+
             using (var conn = new SqlConnection(_connectionString))
             {
                 using (var cmd = new SqlCommand("PROC-NAME", conn))
@@ -65,9 +67,7 @@ namespace WeddingAssist.Domain.Infra
                     {
                         while (reader.Read())
                         {
-                            Budget newBudget = new Budget();
-
-                            //GET BUDGET PROPS
+                            AuctionBudget newBudget = new AuctionBudget();
 
                             budgets.Add(newBudget);
                         }
