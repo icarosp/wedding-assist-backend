@@ -42,7 +42,7 @@ namespace WeddingAssist.Domain.Infra
                         SaveBudgetService(budgetId, budgetService);
                     }
 
-                    return SaveAuction(budgetId, budget.Duration);
+                    return SaveAuction(budgetId, 1); //check here later
                 }
             }
         }

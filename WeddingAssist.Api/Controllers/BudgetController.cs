@@ -19,11 +19,14 @@ namespace WeddingAssist.Api.Controllers
         private BudgetRepository _repo = new BudgetRepository();
 
         [HttpPost]
-        public IActionResult SaveBudget([FromBody]JObject json)
+        [Route("save_budget")]
+        public IActionResult SaveBudget([FromBody] Budget bud)
         {
             try
             {
-                Budget budget = JsonConvert.DeserializeObject<Budget>(json.ToString());
+                Budget budget = bud;
+                Console.WriteLine(budget.Services[0]);
+                //JsonConvert.DeserializeObject<Budget>(json.ToString());
                 int auctionId = _repo.SaveBudget(budget);
                 return Created("SaveBudget", new Result(new { auctionId = auctionId }));
             }

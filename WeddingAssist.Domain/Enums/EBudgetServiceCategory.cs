@@ -6,9 +6,9 @@ namespace WeddingAssist.Domain.Enums
 {
     public enum EBudgetServiceCategory
     {
-        DRINKS = 1,
-        FOOD = 2,
-        CHURCH = 3,
-        BALLROOM = 4
+        FOOD = 1,
+        DRINKS = 2,
+        CHAIR = 3,
+        TABLE = 4
     }
 }
