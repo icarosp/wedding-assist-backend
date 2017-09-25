@@ -11,7 +11,7 @@ namespace WeddingAssist.Domain.Entities
 
         public int AuctionId { get; set; }
         public int NumberOfBids { get; set; }
-        public int IsActive { get; set; }
+        public bool IsActive { get; set; }
         public DateTime EndDate { get; set; }
 
         public string FormatedCreationDate
@@ -36,7 +36,7 @@ namespace WeddingAssist.Domain.Entities
         {
             get
             {
-                if (IsActive < 1 || this.EndDate < DateTime.Now)
+                if (!IsActive || this.EndDate < DateTime.Now)
                     return false;
                 return true;
             }
