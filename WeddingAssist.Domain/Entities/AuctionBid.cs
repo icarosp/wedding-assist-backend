@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 
 namespace WeddingAssist.Domain.Entities
@@ -12,7 +13,9 @@ namespace WeddingAssist.Domain.Entities
         public decimal Amount { get; set; }
         public string FormatedAmount { get
             {
-                return Amount.ToString("R$ #,##");
+                CultureInfo culture = new CultureInfo("pt-BR");
+
+                return Amount.ToString("C2", culture);
             }
             set {}
         }

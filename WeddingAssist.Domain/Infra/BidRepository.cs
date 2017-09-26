@@ -163,7 +163,7 @@ namespace WeddingAssist.Domain.Infra
                             AuctionBid bid = new AuctionBid();
 
                             bid.BidId = (int)reader[5];
-                            bid.ProviderName = Convert.ToString(reader[12]);
+                            bid.ProviderName = Convert.ToString(reader[11]);
                             bid.Amount = Convert.ToDecimal(reader[8]);
                             bid.BidTime = Convert.ToDateTime(reader[9]);
 
