@@ -19,6 +19,8 @@ namespace WeddingAssist.Domain.Entities
 
         public List<EService> Services {get; set;}
 
+        public List<AuctionBid> Bids { get; set; }
+
         public string FormatedCreationDate
         {
             get
@@ -50,6 +52,7 @@ namespace WeddingAssist.Domain.Entities
 
         public AuctionBudget()
         {
+            Bids = new List<AuctionBid>();
             Services = new List<EService>();
         }
     }

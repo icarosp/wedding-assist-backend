@@ -208,6 +208,8 @@ namespace WeddingAssist.Domain.Infra
                                 newBudget.Services.Add(x.ServiceType);
                             }
 
+                            newBudget.Bids = new BidRepository().GetAllBidsInAuctionById(newBudget.AuctionId);
+
                             budgets.Add(newBudget);
                         }
                     }

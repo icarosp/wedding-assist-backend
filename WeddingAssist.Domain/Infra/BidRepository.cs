@@ -142,5 +142,46 @@ namespace WeddingAssist.Domain.Infra
                 }
             }
         }
+
+        public List<AuctionBid> GetAllBidsInAuctionById(int auctionId)
+        {
+            List<AuctionBid> auctionBids = new List<AuctionBid>();
+
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand("[Bid-Select-GetAllBidsByAuctionId]", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@auctionId", auctionId);
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            AuctionBid bid = new AuctionBid();
+
+                            bid.BidId = (int)reader[5];
+                            bid.ProviderName = Convert.ToString(reader[12]);
+                            bid.Amount = Convert.ToDecimal(reader[8]);
+                            bid.BidTime = Convert.ToDateTime(reader[9]);
+
+                            auctionBids.Add(bid);
+                        }
+                    }
+                    conn.Close();
+
+                }
+            }
+
+            return auctionBids;
+        }
+
+
+
+
+
+        //
     }
 }
