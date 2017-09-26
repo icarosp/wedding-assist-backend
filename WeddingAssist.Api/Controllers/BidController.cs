@@ -32,13 +32,13 @@ namespace WeddingAssist.Api.Controllers
         }
 
         [HttpGet]
-        [Route("bid/{id}")]
+        [Route("get_bid/{id}")]
         public IActionResult GetBidById([FromRoute] int id)
         {
             try
             {
                 Bid bid = _repo.GetBidById(id);
-                return Created("SaveBid", new Result(new { bidId = bid }));
+                return Created("SaveBid", new Result(bid));
             }
             catch (Exception e)
             {
