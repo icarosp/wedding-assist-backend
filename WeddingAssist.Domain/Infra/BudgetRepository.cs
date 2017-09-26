@@ -248,6 +248,8 @@ namespace WeddingAssist.Domain.Infra
                                 servicesForThisBudget.Add(x.ServiceType);
                             }
 
+                            newBudget.Services = servicesForThisBudget;
+
                             List<string> allServicesByProvider = new List<string>();
 
                             //ALL SERVICES THAT A PROVIDER PROVIDES

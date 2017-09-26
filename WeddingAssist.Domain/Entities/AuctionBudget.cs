@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WeddingAssist.Domain.Entities;
+using WeddingAssist.Domain.Enums;
 
 namespace WeddingAssist.Domain.Entities
 {
@@ -15,6 +16,8 @@ namespace WeddingAssist.Domain.Entities
         public int NumberOfBids { get; set; }
         public bool IsActive { get; set; }
         public DateTime EndDate { get; set; }
+
+        public List<EService> Services {get; set;}
 
         public string FormatedCreationDate
         {
@@ -43,6 +46,11 @@ namespace WeddingAssist.Domain.Entities
                 return true;
             }
             set { }
+        }
+
+        public AuctionBudget()
+        {
+            Services = new List<EService>();
         }
     }
 }
