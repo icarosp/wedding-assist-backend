@@ -394,7 +394,7 @@ namespace WeddingAssist.Domain.Infra
 
             using (var conn = new SqlConnection(_connectionString))
             {
-                using (var cmd = new SqlCommand($"SELECT * FROM tb_user usr INNER JOIN tb_provider prv ON prv.usr_id = usr.usr_id", conn))
+                using (var cmd = new SqlCommand($"SELECT *,dbo.ufn_provider_qtt_bid(prv.[prv_id]) FROM tb_user usr INNER JOIN tb_provider prv ON prv.usr_id = usr.usr_id", conn))
                 {
                     cmd.CommandType = CommandType.Text;
 
@@ -414,6 +414,7 @@ namespace WeddingAssist.Domain.Infra
                             provider.ProviderName = Convert.ToString(reader[7]);
                             provider.Logo = Convert.ToString(reader[8]);
                             provider.Enable = (bool)reader[10];
+                            provider.TotalOfBids = Convert.ToInt32(reader[12]);
 
                             var services = GetServicesByProviderId(provider.ProviderId);
 
