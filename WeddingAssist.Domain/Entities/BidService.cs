@@ -7,6 +7,7 @@ namespace WeddingAssist.Domain.Entities
 {
     public class BidService
     {
+        public int ServiceId { get; set; }
         public EService ServiceType { get; set; }
         public IList<BidServiceCategory> Categories { get; set; }
         public Decimal Amount { get; set; }//ONLY GETTER

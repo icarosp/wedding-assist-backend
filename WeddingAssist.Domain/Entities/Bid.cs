@@ -7,6 +7,7 @@ namespace WeddingAssist.Domain.Entities
 {
     public class Bid
     {
+        public Decimal Amount { get { return TotalAmount(); } set { } }
         public int BidId { get; set; }
         public int ProviderId { get; set; }
         public int AuctionId { get; set; }
