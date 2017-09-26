@@ -175,6 +175,14 @@ namespace WeddingAssist.Domain.Infra
                 }
             }
 
+            auctionBids = auctionBids.OrderBy(x => x.Amount).ToList();
+
+
+            //SET POSITIONS
+            for (int i = 1; i <= auctionBids.Count; i++) {
+                auctionBids[i-1].Position = i;
+            }
+
             return auctionBids;
         }
 
