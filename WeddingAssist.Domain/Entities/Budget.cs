@@ -9,6 +9,7 @@ namespace WeddingAssist.Domain.Entities
     {
         public int BudgetId { get; set; }
         public int CoupleId { get; set; }
+        public int AuctionId { get; set; }
         public IList<BudgetService> Services { get; set; }
         //public Decimal BudgetAmount { get; private set; }
         public DateTime StartDate { get; set; }

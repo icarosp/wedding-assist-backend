@@ -55,7 +55,7 @@ namespace WeddingAssist.Api.Controllers
             try
             {
                 List<Domain.Entities.AuctionBudget> budgets = _repo.GetBudgetsByCoupleId(id);
-                return Ok(new Result(budgets));
+                return Ok(new Result(budgets.OrderByDescending(x=> x.StartDate)));
             }
             catch (Exception e)
             {
@@ -70,7 +70,7 @@ namespace WeddingAssist.Api.Controllers
             try
             {
                 List<Domain.Entities.AuctionBudget> budgets = _repo.GetBudgetsByProviderId(id);
-                return Ok(new Result(budgets));
+                return Ok(new Result(budgets.OrderByDescending(x => x.StartDate)));
             }
             catch (Exception e)
             {

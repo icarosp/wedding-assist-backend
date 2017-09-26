@@ -68,6 +68,7 @@ namespace WeddingAssist.Domain.Infra
 
                            budget.BudgetId = (int)reader[0];
                            budget.StartDate = Convert.ToDateTime(reader[2]);
+                            budget.AuctionId = (int)reader[7];
 
                             budget.Services = GetServicesByBudgetId(budget.BudgetId);
                         }
