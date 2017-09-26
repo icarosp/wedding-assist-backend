@@ -11,6 +11,20 @@ namespace WeddingAssist.Domain.Entities
         public int ProviderId { get; set; }
         public int AuctionId { get; set; }
         public DateTime BidCreationDate { get; set; }
+        public IList<BidService> Services { get; set; }
+
+        public Bid()
+        {
+            Services = new List<BidService>();
+        }
+
+        public Decimal TotalAmount()
+        {
+            Decimal amount = 0;
+            foreach (var service in Services)
+                amount += service.TotalAmount();
+            return amount;
+        }
 
     }
 }

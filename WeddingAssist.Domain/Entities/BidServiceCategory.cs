@@ -7,13 +7,20 @@ namespace WeddingAssist.Domain.Entities
 {
     public class BidServiceCategory
     {
-        public IList<BidItem> BidItems { get; set; }
+        public IList<BidItem> Items { get; set; }
         public EBudgetServiceCategory Category { get; set; }
         public Decimal Amount { get; set; }//ONLY GETTER
 
         public BidServiceCategory()
         {
-            BidItems = new List<BidItem>();
+            Items = new List<BidItem>();
+        }
+
+        public Decimal TotalAmount()
+        {
+            foreach (var item in Items)
+                Amount += item.BidItemAmount;
+            return Amount;
         }
     }
 }
