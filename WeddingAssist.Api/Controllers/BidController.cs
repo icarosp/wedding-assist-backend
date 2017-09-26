@@ -33,7 +33,7 @@ namespace WeddingAssist.Api.Controllers
 
         [HttpGet]
         [Route("bid/{id}")]
-        public IActionResult SaveBid([FromRoute] int id)
+        public IActionResult GetBidById([FromRoute] int id)
         {
             try
             {

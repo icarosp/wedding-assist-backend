@@ -23,7 +23,7 @@ namespace WeddingAssist.Domain.Infra
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@bidId", id);
+                    cmd.Parameters.AddWithValue("@bid_Id", id);
 
                     conn.Open();
                     using (var reader = cmd.ExecuteReader())
@@ -51,7 +51,7 @@ namespace WeddingAssist.Domain.Infra
 
             using (var conn = new SqlConnection(_connectionString))
             {
-                using (var cmd = new SqlCommand("[dbo][bid-selectBidService]", conn))//change proc name
+                using (var cmd = new SqlCommand("[dbo].[bid-selectBidService]", conn))//change proc name
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -128,7 +128,7 @@ namespace WeddingAssist.Domain.Infra
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue("@bidId", id);
+                    cmd.Parameters.AddWithValue("@cat_id", id);
 
                     conn.Open();
                     using (var reader = cmd.ExecuteReader())
