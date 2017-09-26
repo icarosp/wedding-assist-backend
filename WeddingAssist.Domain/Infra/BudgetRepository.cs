@@ -201,8 +201,11 @@ namespace WeddingAssist.Domain.Infra
                             newBudget.EndDate = Convert.ToDateTime(reader[2]);
                             newBudget.IsActive = Convert.ToBoolean(reader[4]);
 
-
-                            //GET BUDGET PROPS
+                            //ALL SERVICES REQUIRED FOR THIS BUDGET
+                            foreach (var x in this.GetServicesByBudgetId(newBudget.BudgetId))
+                            {
+                                newBudget.Services.Add(x.ServiceType);
+                            }
 
                             budgets.Add(newBudget);
                         }
@@ -247,6 +250,8 @@ namespace WeddingAssist.Domain.Infra
                             foreach (var x in this.GetServicesByBudgetId(newBudget.BudgetId)) {
                                 servicesForThisBudget.Add(x.ServiceType);
                             }
+
+                            newBudget.Services = servicesForThisBudget;
 
                             List<string> allServicesByProvider = new List<string>();
 
