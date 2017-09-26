@@ -126,6 +126,28 @@ namespace WeddingAssist.Domain.Infra
             return fiance;
         }
 
+
+        public string GetNameByCoupleId(int coupleId)
+        {
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand("[dbo].[Fiance-Select-GetFianceByCoupleId]", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    //BudgetService data
+                    cmd.Parameters.AddWithValue("@coupleId", coupleId);
+                    cmd.Parameters.Add("@userName", SqlDbType.NVarChar, 200).Direction = ParameterDirection.Output;
+
+                    conn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    conn.Close();
+
+                    return Convert.ToString(cmd.Parameters["@userName"].Value);
+                }
+            }
+        }
+
         public Provider GetProviderById(int id)
         {
             Provider provider = null;

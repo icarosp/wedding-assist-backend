@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using WeddingAssist.Domain.Enums;
 
 namespace WeddingAssist.Domain.Entities
 {
     public class Bid
     {
-        public IList<BidItem> BidItems { get; private set; }
-        public IList<BudgetCategoryItem> BudgetCategoryItem { get; private set; }
-        public Decimal Amount { get; private set; }//ONLY GETTER
+        public int BidId { get; set; }
+        public int ProviderId { get; set; }
+        public int AuctionId { get; set; }
+        public DateTime BidCreationDate { get; set; }
+
     }
 }
+

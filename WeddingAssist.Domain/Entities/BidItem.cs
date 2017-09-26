@@ -4,10 +4,10 @@ using System.Text;
 
 namespace WeddingAssist.Domain.Entities
 {
-    public class BidItem
+    public class BidItem : BudgetCategoryItem
     {
-        public BudgetCategoryItem Item { get; private set; }
-        public Decimal Amount { get; private set; }
-        public double BonusQuantity { get; private set; }
+        public int BidItemId { get; set; }
+        public Decimal BidItemAmount { get; set; }
+        public string BidItemDescription { get; set; }
     }
 }

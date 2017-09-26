@@ -9,6 +9,8 @@ namespace WeddingAssist.Domain.Entities
     public class AuctionBudget : Budget
     {
 
+        public string UserName { get; set; }
+
         public int AuctionId { get; set; }
         public int NumberOfBids { get; set; }
         public bool IsActive { get; set; }
@@ -36,7 +38,7 @@ namespace WeddingAssist.Domain.Entities
         {
             get
             {
-                if (!IsActive || this.EndDate < DateTime.Now)
+                if (!IsActive || this.EndDate < DateTime.Now.AddHours(-3))
                     return false;
                 return true;
             }

@@ -64,6 +64,21 @@ namespace WeddingAssist.Api.Controllers
         }
 
         [HttpGet]
+        [Route("get_budgets_by_provider/{id}")]
+        public IActionResult GetBudgesByProvider([FromRoute]int id)
+        {
+            try
+            {
+                List<Domain.Entities.AuctionBudget> budgets = _repo.GetBudgetsByProviderId(id);
+                return Ok(new Result(budgets));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new Result(null, e.Message));
+            }
+        }
+
+        [HttpGet]
         [Route("teste")]
         public IActionResult teste() => Ok("|==============|\n|=API RODANDO!=|\n|==============|");
 

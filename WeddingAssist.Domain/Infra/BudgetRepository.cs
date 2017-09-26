@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Text;
 using WeddingAssist.Domain.Entities;
 using WeddingAssist.Domain.Enums;
@@ -212,6 +213,64 @@ namespace WeddingAssist.Domain.Infra
             return budgets;
         }
 
+        public List<AuctionBudget> GetBudgetsByProviderId(int providerId)
+        {
+            List<AuctionBudget> budgets = new List<AuctionBudget>();
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand("[dbo].[Auction-Select-GetAllAuctions]", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    //cmd.Parameters.AddWithValue("@coupleId", id);
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            AuctionBudget newBudget = new AuctionBudget();
+
+                            newBudget.CoupleId = (int)reader[10];
+                            newBudget.AuctionId = (int)reader[0];
+                            newBudget.BudgetId = (int)reader[3];
+                            newBudget.StartDate = Convert.ToDateTime(reader[1]);
+                            newBudget.EndDate = Convert.ToDateTime(reader[2]);
+                            newBudget.IsActive = Convert.ToBoolean(reader[4]);
+
+                            newBudget.UserName = new UserRepository().GetNameByCoupleId(newBudget.CoupleId);
+
+                            List<EService> servicesForThisBudget = new List<EService>();
+                            List<EService> servicesForThisProvider = new List<EService>(); ;
+
+                            //ALL SERVICES REQUIRED FOR THIS BUDGET
+                            foreach (var x in this.GetServicesByBudgetId(newBudget.BudgetId)) {
+                                servicesForThisBudget.Add(x.ServiceType);
+                            }
+
+                            List<string> allServicesByProvider = new List<string>();
+
+                            //ALL SERVICES THAT A PROVIDER PROVIDES
+                            foreach (var x in new UserRepository().GetServicesByProviderId(providerId))
+                            {
+                                allServicesByProvider.Add(x);
+                            }
+
+                            servicesForThisProvider = allServicesByProvider
+                            .Select(x => (EService)Enum.Parse(typeof(EService), x))
+                            .ToList();
+
+                            if(!servicesForThisBudget.Except(servicesForThisProvider).Any())
+                                budgets.Add(newBudget);
+                        }
+                    }
+                    conn.Close();
+                }
+            }
+            return budgets;
+        }
+
+
         private void SaveBudgetService(int budgetId, BudgetService budgetService)
         {
             using (var conn = new SqlConnection(_connectionString))
@@ -316,7 +375,7 @@ namespace WeddingAssist.Domain.Infra
 
                     //Auction data
                     cmd.Parameters.AddWithValue("@fk_bdtId", budgetId);
-                    cmd.Parameters.AddWithValue("@act_startDate", DateTime.Now);
+                    cmd.Parameters.AddWithValue("@act_startDate", DateTime.Now.AddHours(-3));
                     cmd.Parameters.AddWithValue("@act_endDate", endDate);
                     cmd.Parameters.Add("@id_act", SqlDbType.Int).Direction = ParameterDirection.Output;
 

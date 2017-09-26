@@ -17,7 +17,7 @@ namespace WeddingAssist.Domain.Entities
 
         public Budget()
         {
-            StartDate = DateTime.Now;
+            StartDate = DateTime.Now.AddHours(-3);
             Services = new List<BudgetService>();
         }
     }
