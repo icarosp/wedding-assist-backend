@@ -13,6 +13,43 @@ namespace WeddingAssist.Domain.Infra
     {
         private readonly string _connectionString = "server=wa-db-02.cwwhxvtrxmqx.us-east-1.rds.amazonaws.com,1433;user id=wassist;password=weddingassistfiap2017;database=db_wedding_assist";
 
+        public Bid GetBidById(int id)
+        {
+            Bid bid = new Bid();
+
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand("[dbo].[Bid-Insert-CreateBid]", conn))//change proc name
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    //Budget data
+                    //cmd.Parameters.AddWithValue("@auctionId", bid.AuctionId);
+                    //cmd.Parameters.AddWithValue("@providerId ", bid.ProviderId);
+                    cmd.Parameters.AddWithValue("@creationDate", DateTime.Now.AddHours(-3));
+                    //cmd.Parameters.AddWithValue("@total_amount", bid.TotalAmount());
+                    cmd.Parameters.Add("@BidId", SqlDbType.Int).Direction = ParameterDirection.Output;
+
+                    conn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    conn.Close();
+
+                    if (rowsAffected < 1)
+                        throw new Exception("Error to save Bid");
+
+                    int bidId = Convert.ToInt32(cmd.Parameters["@BidId"].Value);
+
+                    //foreach (var bidService in bid.Services)
+                    //{
+                        //SaveBidService(bidId, bidService);
+                    //}
+
+                    //int auctionId = SaveAuction(budgetId, bid.Duration);
+
+                    return bid; //check here later
+                }
+            }
+        }
 
         public int SaveBid(Bid bid)
         {
@@ -25,7 +62,7 @@ namespace WeddingAssist.Domain.Infra
                     //Budget data
                     cmd.Parameters.AddWithValue("@auctionId", bid.AuctionId);
                     cmd.Parameters.AddWithValue("@providerId ", bid.ProviderId);
-                    cmd.Parameters.AddWithValue("@creationDate", DateTime.Now.AddHours(-3));
+                    cmd.Parameters.AddWithValue("@creationDate", DateTime.Now);//.AddHours(-3));
                     cmd.Parameters.AddWithValue("@total_amount", bid.TotalAmount());
                     cmd.Parameters.Add("@BidId", SqlDbType.Int).Direction = ParameterDirection.Output;
 
@@ -58,9 +95,11 @@ namespace WeddingAssist.Domain.Infra
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
+                    int teste = (int)bidService.ServiceType;
+
                     //BudgetService data
                     cmd.Parameters.AddWithValue("@fk_bidId", bidId);
-                    cmd.Parameters.AddWithValue("@fk_srvId", (int)bidService.ServiceType);
+                    cmd.Parameters.AddWithValue("@srvId", teste);
                     cmd.Parameters.AddWithValue("@bid_amount", bidService.Amount);
                     cmd.Parameters.Add("@id_bid_serv", SqlDbType.Int).Direction = ParameterDirection.Output;
 
@@ -177,7 +216,6 @@ namespace WeddingAssist.Domain.Infra
 
             auctionBids = auctionBids.OrderBy(x => x.Amount).ToList();
 
-
             //SET POSITIONS
             for (int i = 1; i <= auctionBids.Count; i++) {
                 auctionBids[i-1].Position = i;
@@ -185,11 +223,5 @@ namespace WeddingAssist.Domain.Infra
 
             return auctionBids;
         }
-
-
-
-
-
-        //
     }
 }
