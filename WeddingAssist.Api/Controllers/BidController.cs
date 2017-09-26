@@ -52,8 +52,8 @@ namespace WeddingAssist.Api.Controllers
         {
             try
             {
-                Bid bid = _repo.GetBidById(id);
-                return Created("SaveBid", new Result(bid));
+                _repo.SaveWinnerBid(id);
+                return Created("SaveBid", new Result(null));
             }
             catch (Exception e)
             {

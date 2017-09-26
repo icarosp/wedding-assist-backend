@@ -142,6 +142,7 @@ namespace WeddingAssist.Domain.Infra
                             item.BidItemDescription = Convert.ToString(reader[5]);
                             item.ItemId = (int) reader[9];
                             item.Description = Convert.ToString(reader[14]);
+                            item.PeopleQuantity = Convert.ToInt32(reader[10]);
 
                             items.Add(item);
                         }
@@ -158,19 +159,19 @@ namespace WeddingAssist.Domain.Infra
         {
             using (var conn = new SqlConnection(_connectionString))
             {
-                using (var cmd = new SqlCommand("[dbo].[Bid-Insert-CreateBid]", conn))//change proc name
+                using (var cmd = new SqlCommand("[dbo].[bid-newBidWinner]", conn))//change proc name
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     //Budget data
                     cmd.Parameters.AddWithValue("@bidId", bidId);
                     cmd.Parameters.AddWithValue("@bidDate ", DateTime.Now.AddHours(-3));
-                    cmd.Parameters.Add("@providerId", SqlDbType.Int);
+                    cmd.Parameters.Add("@providerId", SqlDbType.Int).Direction = ParameterDirection.Output;
 
                     conn.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
 
-                    var providerId = Convert.ToInt32(cmd.Parameters["@providerId"]);
+                    var providerId = Convert.ToInt32(cmd.Parameters["@providerId"].Value);
 
                     conn.Close();
 
