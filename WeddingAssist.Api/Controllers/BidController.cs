@@ -30,5 +30,9 @@ namespace WeddingAssist.Api.Controllers
                 return StatusCode(500, new Result(null, e.Message));
             }
         }
+
+        [HttpGet]
+        [Route("teste")]
+        public IActionResult teste() => Ok("|==============|\n|=API RODANDO!=|\n|==============|");
     }
 }

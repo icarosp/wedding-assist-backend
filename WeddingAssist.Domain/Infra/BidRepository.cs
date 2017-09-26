@@ -60,7 +60,7 @@ namespace WeddingAssist.Domain.Infra
 
                     //BudgetService data
                     cmd.Parameters.AddWithValue("@fk_bidId", bidId);
-                    cmd.Parameters.AddWithValue("@fk_bdtServId", (int)bidService.ServiceType);
+                    cmd.Parameters.AddWithValue("@fk_srvId", (int)bidService.ServiceType);
                     cmd.Parameters.AddWithValue("@bid_amount", bidService.Amount);
                     cmd.Parameters.Add("@id_bid_serv", SqlDbType.Int).Direction = ParameterDirection.Output;
 
@@ -92,7 +92,7 @@ namespace WeddingAssist.Domain.Infra
 
                     //BudgetServiceCategory data
                     cmd.Parameters.AddWithValue("@fk_bidServId", bidServiceId);
-                    cmd.Parameters.AddWithValue("@fk_bdtCatvId", (int)category.Category);
+                    cmd.Parameters.AddWithValue("@fk_catId", (int)category.Category);
                     cmd.Parameters.AddWithValue("@bid_amount", category.Amount);
                     cmd.Parameters.Add("@id_bid_cat", SqlDbType.Int).Direction = ParameterDirection.Output;
 
@@ -124,9 +124,9 @@ namespace WeddingAssist.Domain.Infra
 
                     //BudgetServiceCategory data
                     cmd.Parameters.AddWithValue("@fk_bidCatId", categoryId);
-                    cmd.Parameters.AddWithValue("@fk_bdtItmId", (int)item.Type);
+                    cmd.Parameters.AddWithValue("@fk_bdtItmId", item.ItemId);
                     cmd.Parameters.AddWithValue("@bid_amount", item.BidItemAmount);
-                    cmd.Parameters.AddWithValue("@bid_description", item.Description);
+                    cmd.Parameters.AddWithValue("@bid_description", item.BidItemDescription);
                     cmd.Parameters.Add("@id_bid_cat", SqlDbType.Int).Direction = ParameterDirection.Output;
 
 
