@@ -11,6 +11,8 @@ namespace WeddingAssist.Domain.Entities
         public string ProviderName { get; set; }
         public DateTime BidTime { get; set; }
         public decimal Amount { get; set; }
+
+        public Boolean IsWinner { get; set; }
         public string FormatedAmount { get
             {
                 CultureInfo culture = new CultureInfo("pt-BR");

@@ -46,6 +46,21 @@ namespace WeddingAssist.Api.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("chooseBid")]
+        public IActionResult ChooseBid([FromBody] int id)
+        {
+            try
+            {
+                Bid bid = _repo.GetBidById(id);
+                return Created("SaveBid", new Result(bid));
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, new Result(null, e.Message));
+            }
+        }
+
         [HttpGet]
         [Route("teste")]
         public IActionResult teste() => Ok("|==============|\n|=API RODANDO!=|\n|==============|");

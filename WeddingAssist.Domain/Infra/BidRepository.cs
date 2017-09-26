@@ -153,6 +153,33 @@ namespace WeddingAssist.Domain.Infra
             }
         }
 
+
+        public int SaveWinnerBid(int bidId)
+        {
+            using (var conn = new SqlConnection(_connectionString))
+            {
+                using (var cmd = new SqlCommand("[dbo].[Bid-Insert-CreateBid]", conn))//change proc name
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    //Budget data
+                    cmd.Parameters.AddWithValue("@bidId", bidId);
+                    cmd.Parameters.AddWithValue("@bidDate ", DateTime.Now.AddHours(-3));
+                    cmd.Parameters.Add("@providerId", SqlDbType.Int);
+
+                    conn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    var providerId = Convert.ToInt32(cmd.Parameters["@providerId"]);
+
+                    conn.Close();
+
+                    return providerId; //check here later
+                }
+            }
+        }
+
+
         public int SaveBid(Bid bid)
         {
             using (var conn = new SqlConnection(_connectionString))
@@ -307,6 +334,9 @@ namespace WeddingAssist.Domain.Infra
                             bid.ProviderName = Convert.ToString(reader[11]);
                             bid.Amount = Convert.ToDecimal(reader[8]);
                             bid.BidTime = Convert.ToDateTime(reader[9]);
+                            if (reader[16] != DBNull.Value)
+                                bid.IsWinner = true;
+
 
                             auctionBids.Add(bid);
                         }
