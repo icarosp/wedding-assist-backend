@@ -34,6 +34,7 @@ namespace WeddingAssist.Domain.Infra
                             bid.AuctionId = (int)reader[1];
                             bid.ProviderId = (int)reader[2];
                             bid.BidCreationDate = Convert.ToDateTime(reader[4]);
+                            bid.IsFinished = !Convert.ToBoolean(reader[9]);
                         }
                     }
                     conn.Close();

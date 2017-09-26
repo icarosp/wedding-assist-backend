@@ -13,6 +13,7 @@ namespace WeddingAssist.Domain.Entities
         public int AuctionId { get; set; }
         public DateTime BidCreationDate { get; set; }
         public IList<BidService> Services { get; set; }
+        public Boolean IsFinished { get; set; }
 
         public Bid()
         {
